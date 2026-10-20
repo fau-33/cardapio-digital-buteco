@@ -1,0 +1,12 @@
+### Teste 1: Listar todas as categorias (GET)
+GET http://localhost:3000/categories
+
+###
+
+### Teste 2: Criar uma nova categoria (POST)
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+  "name": "Porções e Petiscos"
+}

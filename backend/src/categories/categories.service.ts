@@ -1,26 +1,26 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DRIZZLE } from '../database/database.provider.js';
-import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import * as schema from '../db/schema.js';
-import { eq } from 'drizzle-orm';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class CategoriesService {
-  constructor(@Inject(DRIZZLE) private db: NodePgDatabase<typeof schema>) {}
+  constructor(@Inject(DRIZZLE) private db: NeonHttpDatabase<typeof schema>) {}
 
   // Listar todas as categorias
   async findAll() {
     return await this.db.select().from(schema.categories);
   }
 
-  // Criar uma nova categoria
-  async create(data: { id: string; name: string; order?: string }) {
+  // Criar uma nova categoria com ID e ordem automáticos se não forem informados
+  async create(data: { id?: string; name: string; order?: string }) {
     const [newCategory] = await this.db
       .insert(schema.categories)
       .values({
-        id: data.id,
+        id: data.id || crypto.randomUUID(),
         name: data.name,
-        order: data.order || '0',
+        order: data.order || '1',
       })
       .returning();
 
