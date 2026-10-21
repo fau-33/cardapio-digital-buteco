@@ -26,4 +26,27 @@ export class CategoriesService {
 
     return newCategory;
   }
+
+  // Buscar todas as categorias com seus respectivos produtos
+  async findAllWithProducts() {
+    // 1. Busca todas as categorias
+    const allCategories = await this.db.select().from(schema.categories);
+
+    // 2. Busca todos os produtos ativos
+    const allProducts = await this.db.select().from(schema.products);
+
+    // 3. Junta os produtos dentro de suas respectivas categorias
+    const menu = allCategories.map((category) => {
+      const productsOfCategory = allProducts.filter(
+        (product) => product.categoryId === category.id,
+      );
+
+      return {
+        ...category,
+        products: productsOfCategory,
+      };
+    });
+
+    return menu;
+  }
 }

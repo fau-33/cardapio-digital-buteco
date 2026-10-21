@@ -24,3 +24,6 @@ Content-Type: application/json
 
 ### Teste: Listar Produtos
 GET http://localhost:3000/products
+
+### Teste: Obter o Cardápio Completo (Categorias e Produtos)
+GET http://localhost:3000/categories/menu

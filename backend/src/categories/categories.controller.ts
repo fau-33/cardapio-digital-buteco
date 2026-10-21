@@ -16,4 +16,10 @@ export class CategoriesController {
   async create(@Body() body: { id: string; name: string; order?: string }) {
     return await this.categoriesService.create(body);
   }
+
+  // Rota GET: Retorna o cardápio completo (Categorias + Produtos)
+  @Get('menu')
+  async findAllWithProducts() {
+    return await this.categoriesService.findAllWithProducts();
+  }
 }
