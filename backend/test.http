@@ -10,3 +10,17 @@ Content-Type: application/json
 {
   "name": "Porções e Petiscos"
 }
+
+### Teste: Criar um Produto Real
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+  "name": "Batata Frita com Cheddar e Bacon",
+  "description": "Porção grande de batata sequinha com muito cheddar e bacon crocante",
+  "price": "49.90",
+  "categoryId": "72865b2c-4701-4ead-8cee-228524c29b95"
+}
+
+### Teste: Listar Produtos
+GET http://localhost:3000/products
