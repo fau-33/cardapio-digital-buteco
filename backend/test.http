@@ -65,3 +65,11 @@ Content-Type: application/json
 ### 4. Painel Admin: Deletar um produto do cardápio
 # (Substitua o ID abaixo pelo ID do produto que deseja remover)
 DELETE http://localhost:3000/products/5b1d95ff-5723-432f-adf5-08ee141c701d
+
+### Teste Admin: Atualizar parcialmente (PATCH) apenas o preço do produto
+PATCH http://localhost:3000/products/5b1d95ff-5723-432f-adf5-08ee141c701d
+Content-Type: application/json
+
+{
+  "price": "19.00"
+}

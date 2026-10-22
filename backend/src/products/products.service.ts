@@ -56,6 +56,26 @@ export class ProductsService {
     return updatedProduct;
   }
 
+  // Atualização parcial de um produto (PATCH)
+  async patch(
+    id: string,
+    data: {
+      name?: string;
+      description?: string;
+      price?: string;
+      categoryId?: string;
+      isActive?: boolean;
+    },
+  ) {
+    const [updatedProduct] = await this.db
+      .update(schema.products)
+      .set(data)
+      .where(eq(schema.products.id, id))
+      .returning();
+
+    return updatedProduct;
+  }
+
   // Deletar um produto pelo ID
   async remove(id: string) {
     const [deletedProduct] = await this.db

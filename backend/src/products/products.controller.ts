@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Patch,
   Body,
   Param,
   Put,
@@ -47,6 +48,22 @@ export class ProductsController {
     },
   ) {
     return await this.productsService.update(id, body);
+  }
+
+  // Rota PATCH: Atualizar parcialmente um produto (ex: só o preço)
+  @Patch(':id')
+  async patch(
+    @Param('id') id: string,
+    @Body()
+    body: {
+      name?: string;
+      description?: string;
+      price?: string;
+      categoryId?: string;
+      isActive?: boolean;
+    },
+  ) {
+    return await this.productsService.patch(id, body);
   }
 
   // Rota DELETE: Remover produto do cardápio

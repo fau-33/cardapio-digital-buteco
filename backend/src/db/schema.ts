@@ -1,6 +1,7 @@
 import {
   pgTable,
   text,
+  varchar,
   timestamp,
   boolean,
   decimal,
@@ -34,5 +35,14 @@ export const devLogs = pgTable('dev_logs', {
   level: text('level').notNull(), // 'info', 'warn', 'error'
   message: text('message').notNull(),
   endpoint: text('endpoint'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// 4. Tabela de Administradores (Users)
+export const users = pgTable('users', {
+  id: varchar('id', { length: 36 }).primaryKey(),
+  name: varchar('name', { length: 255 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull().unique(),
+  password: text('password').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
