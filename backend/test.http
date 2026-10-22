@@ -1,9 +1,13 @@
-### Teste 1: Listar todas as categorias (GET)
+@baseUrl = http://localhost0:3000
+
+# ==========================================
+# 📂 CATEGORIAS
+# ==========================================
+
+### 1. Listar todas as categorias (GET)
 GET http://localhost:3000/categories
 
-###
-
-### Teste 2: Criar uma nova categoria (POST)
+### 2. Criar uma nova categoria (POST)
 POST http://localhost:3000/categories
 Content-Type: application/json
 
@@ -11,65 +15,85 @@ Content-Type: application/json
   "name": "Porções e Petiscos"
 }
 
-### Teste: Criar um Produto Real
-POST http://localhost:3000/products
-Content-Type: application/json
-
-{
-  "name": "Batata Frita com Cheddar e Bacon",
-  "description": "Porção grande de batata sequinha com muito cheddar e bacon crocante",
-  "price": "49.90",
-  "categoryId": "72865b2c-4701-4ead-8cee-228524c29b95"
-}
-
-### Teste: Listar Produtos
-GET http://localhost:3000/products
-
-### Teste: Obter o Cardápio Completo (Categorias e Produtos)
+### 3. Obter o Cardápio Completo (Categorias e Produtos aninhados para o QR Code)
 GET http://localhost:3000/categories/menu
 
-### Teste Admin: Atualizar o preço de um produto (Ex: Heineken ou Batata)
-PUT http://localhost:3000/products/ae4679e2-529e-4bdc-bc15-bce320077143
-Content-Type: application/json
 
-{
-  "price": "52.00"
-}
+# ==========================================
+# 🍻 PRODUTOS & PAINEL ADMINISTRATIVO
+# ==========================================
 
-### Teste Admin: Deletar um produto
-DELETE http://localhost:3000/products/ae4679e2-529e-4bdc-bc15-bce320077143
-
-### 1. Criar um novo produto no cardápio (Ex: Cerveja Heineken 600ml)
+### 1. Criar um novo produto no cardápio
 POST http://localhost:3000/products
 Content-Type: application/json
 
 {
   "name": "Heineken (600ml)",
-  "description": "Cerveja purimagra gelada",
+  "description": "Cerveja pururuca e gelada",
   "price": "17.00",
   "categoryId": "cat-1"
 }
 
-### 2. Ver o Cardápio Completo (Categorias + Produtos unificados para o cliente ver no QR Code)
-GET http://localhost:3000/categories/menu
+### 2. Listar todos os produtos
+GET http://localhost:3000/products
 
-### 3. Painel Admin: Atualizar o preço de um produto (Ex: subindo para R$ 18.00)
-# (Substitua o ID abaixo pelo ID real que o POST acima te retornar)
-PUT http://localhost:3000/products/5b1d95ff-5723-432f-adf5-08ee141c701d
+### 3. Painel Admin: Atualizar produto completo (PUT)
+# (Substitua o ID pelo ID real de um produto)
+PUT http://localhost:3000/products/SEU_ID_DE_PRODUTO_AQUI
 Content-Type: application/json
 
 {
+  "name": "Heineken (600ml) - Atualizada",
+  "description": "Geladíssima",
   "price": "18.00"
 }
 
-### 4. Painel Admin: Deletar um produto do cardápio
-# (Substitua o ID abaixo pelo ID do produto que deseja remover)
-DELETE http://localhost:3000/products/5b1d95ff-5723-432f-adf5-08ee141c701d
-
-### Teste Admin: Atualizar parcialmente (PATCH) apenas o preço do produto
-PATCH http://localhost:3000/products/5b1d95ff-5723-432f-adf5-08ee141c701d
+### 4. Painel Admin: Atualizar parcialmente apenas o preço (PATCH)
+# (Substitua o ID pelo ID real de um produto)
+PATCH http://localhost:3000/products/SEU_ID_DE_PRODUTO_AQUI
 Content-Type: application/json
 
 {
   "price": "19.00"
+}
+
+### 5. Painel Admin: Deletar um produto do cardápio (DELETE)
+# (Substitua o ID pelo ID real de um produto)
+DELETE http://localhost:3000/products/SEU_ID_DE_PRODUTO_AQUI
+
+
+# ==========================================
+# 🔐 AUTENTICAÇÃO E SEGURANÇA (ADMIN)
+# ==========================================
+
+### 1. Teste Auth: Tentar cadastrar com senha FRACA (Deve retornar erro 400)
+# Motivo: Falta letra maiúscula ou tem menos de 6 caracteres
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Papá Fraquinho",
+  "email": "fraco@butecodopapa.com",
+  "password": "123"
+}
+
+### 2. Teste Auth: Cadastrar com senha FORTE (Deve retornar sucesso 201)
+# Requisito: Mínimo 6 caracteres, 1 maiúscula e 1 minúscula
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Papá do Buteco Forte",
+  "email": "adminforte@butecodopapa.com",
+  "password": "Buteco123"
+}
+
+### Teste Auth: Cadastrar com senha FORTE (Deve retornar sucesso 201 e createdAt no horário do Brasil)
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Papá do Buteco Forte 2",
+  "email": "adminbrasil@butecodopapa.com",
+  "password": "Buteco123"
 }
