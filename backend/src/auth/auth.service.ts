@@ -1,4 +1,9 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { DRIZZLE } from '../database/database.provider.js';
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import * as schema from '../db/schema.js';
@@ -55,5 +60,114 @@ export class AuthService {
       ...newUser,
       createdAt: formatToBrazilTime(newUser.createdAt),
     };
+  }
+
+  // Autenticar / Login do Administrador
+  async login(data: { email: string; password: string }) {
+    // 1. Buscar o usuário pelo e-mail
+    const [user] = await this.db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.email, data.email));
+
+    if (!user) {
+      throw new UnauthorizedException('E-mail ou senha inválidos.');
+    }
+
+    // 2. Comparar a senha informada com o hash salvo no banco
+    const isPasswordValid = await bcrypt.compare(data.password, user.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('E-mail ou senha inválidos.');
+    }
+
+    // 3. Retornar os dados básicos de sucesso (em breve com o Token JWT aqui!)
+    return {
+      message: 'Login realizado com sucesso!',
+      admin: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: formatToBrazilTime(user.createdAt),
+      },
+    };
+  }
+
+  // 1. Solicitar recuperação de senha
+  async forgotPassword(data: { email: string }) {
+    const [user] = await this.db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.email, data.email));
+
+    if (!user) {
+      return {
+        message: 'Se o e-mail existir, um token de recuperação foi gerado.',
+      };
+    }
+
+    // Gera um token aleatório seguro (ex: 32 bytes em hexadecimal)
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    // Validade de 15 minutos a partir de agora
+    const resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000);
+
+    // Salva o token no banco
+    await this.db
+      .update(schema.users)
+      .set({
+        resetToken,
+        resetTokenExpiry,
+      })
+      .where(eq(schema.users.id, user.id));
+
+    // No ambiente de produção, isso seria enviado por e-mail. Para testes, retornamos o token:
+    return {
+      message: 'Token de recuperação gerado com sucesso.',
+      resetToken, // Copie este token para testar o reset no .http
+    };
+  }
+
+  // 2. Redefinir a senha usando o token
+  async resetPassword(data: {
+    email: string;
+    token: string;
+    newPassword: string;
+  }) {
+    // Validar requisitos de senha forte na nova senha
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    if (!passwordRegex.test(data.newPassword)) {
+      throw new BadRequestException(
+        'A nova senha deve ter no mínimo 6 caracteres, contendo pelo menos uma letra maiúscula e uma minúscula.',
+      );
+    }
+
+    const [user] = await this.db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.email, data.email));
+
+    if (!user || user.resetToken !== data.token) {
+      throw new BadRequestException('Token inválido ou e-mail incorreto.');
+    }
+
+    // Verifica se o token expirou
+    if (user.resetTokenExpiry && new Date() > new Date(user.resetTokenExpiry)) {
+      throw new BadRequestException('O token de recuperação expirou.');
+    }
+
+    // Criptografa a nova senha
+    const hashedPassword = await bcrypt.hash(data.newPassword, 10);
+
+    // Atualiza a senha e limpa o token de recuperação
+    await this.db
+      .update(schema.users)
+      .set({
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiry: null,
+      })
+      .where(eq(schema.users.id, user.id));
+
+    return { message: 'Senha redefinida com sucesso! Já pode fazer login.' };
   }
 }

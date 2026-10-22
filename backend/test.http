@@ -97,3 +97,30 @@ Content-Type: application/json
   "email": "adminbrasil@butecodopapa.com",
   "password": "Buteco123"
 }
+
+### Teste Auth: Fazer Login com o Administrador Cadastrado
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "adminbrasil@butecodopapa.com",
+  "password": "Buteco123"
+}
+
+### Teste Auth: 1. Solicitar Recuperação de Senha (Gera o Token)
+POST http://localhost:3000/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "adminbrasil@butecodopapa.com"
+}
+
+### Teste Auth: 2. Redefinir a Senha (Cole o token gerado acima aqui)
+POST http://localhost:3000/auth/reset-password
+Content-Type: application/json
+
+{
+  "email": "adminbrasil@butecodopapa.com",
+  "token": "77bc4fd9c83d9820e56003db5d483296e9b733cf3373d02af5fbd08cc5b9ab50",
+  "newPassword": "NovaSenhaForte123"
+}

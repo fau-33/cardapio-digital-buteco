@@ -44,5 +44,7 @@ export const users = pgTable('users', {
   name: varchar('name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
   password: text('password').notNull(),
+  resetToken: text('reset_token'), // <--- Novo campo para o token
+  resetTokenExpiry: timestamp('reset_token_expiry'), // <--- Validade do token
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
