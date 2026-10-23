@@ -11,10 +11,14 @@ import * as crypto from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { eq } from 'drizzle-orm';
 import { formatToBrazilTime } from '../common/utils/date.helper.js';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject(DRIZZLE) private db: NeonHttpDatabase<typeof schema>) {}
+  constructor(
+    @Inject(DRIZZLE) private db: NeonHttpDatabase<typeof schema>,
+    private jwtService: JwtService,
+  ) {}
 
   // Registar um novo Administrador com Validação de Senha
   async register(data: { name: string; email: string; password: string }) {
@@ -81,9 +85,13 @@ export class AuthService {
       throw new UnauthorizedException('E-mail ou senha inválidos.');
     }
 
-    // 3. Retornar os dados básicos de sucesso (em breve com o Token JWT aqui!)
+    // 3. Gerar o Token JWT de Acesso
+    const payload = { sub: user.id, email: user.email, name: user.name };
+    const accessToken = this.jwtService.sign(payload);
+
     return {
       message: 'Login realizado com sucesso!',
+      accessToken, // Crachá digital para as rotas protegidas
       admin: {
         id: user.id,
         name: user.name,
