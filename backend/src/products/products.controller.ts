@@ -2,25 +2,28 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Patch,
+  Delete,
   Body,
   Param,
-  Put,
-  Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service.js';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  // Rota GET: Listar todos os produtos
+  // 🔓 PÚBLICO: Qualquer cliente no QR Code pode ver a lista de produtos
   @Get()
   async findAll() {
     return await this.productsService.findAll();
   }
 
-  // Rota POST: Criar novo produto
+  // 🔒 PROTEGIDO: Apenas o Admin logado pode criar produtos
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(
     @Body()
@@ -34,7 +37,8 @@ export class ProductsController {
     return await this.productsService.create(body);
   }
 
-  // Rota PUT: Atualizar produto
+  // 🔒 PROTEGIDO: Apenas o Admin logado pode atualizar completo (PUT)
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
     @Param('id') id: string,
@@ -50,7 +54,8 @@ export class ProductsController {
     return await this.productsService.update(id, body);
   }
 
-  // Rota PATCH: Atualizar parcialmente um produto (ex: só o preço)
+  // 🔒 PROTEGIDO: Apenas o Admin logado pode atualizar parcial (PATCH)
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async patch(
     @Param('id') id: string,
@@ -63,10 +68,11 @@ export class ProductsController {
       isActive?: boolean;
     },
   ) {
-    return await this.productsService.patch(id, body);
+    return await this.productsService.update(id, body);
   }
 
-  // Rota DELETE: Remover produto do cardápio
+  // 🔒 PROTEGIDO: Apenas o Admin logado pode deletar produtos
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.productsService.remove(id);

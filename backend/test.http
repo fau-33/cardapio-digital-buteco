@@ -124,3 +124,39 @@ Content-Type: application/json
   "token": "77bc4fd9c83d9820e56003db5d483296e9b733cf3373d02af5fbd08cc5b9ab50",
   "newPassword": "NovaSenhaForte123"
 }
+
+### 1. Fazer Login para obter o Token de Acesso (accessToken)
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "adminbrasil@butecodopapa.com",
+  "password": "NovaSenhaForte123"
+}
+
+### ---------------------------------------------------------
+
+### 2. TESTE DE BLOQUEIO: Tentar criar produto SEM ENVIAR O TOKEN (Deve dar 401 Unauthorized)
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+  "name": "Cerveja Sem Token",
+  "description": "Não deve passar",
+  "price": "10.00",
+  "categoryId": "cat-1"
+}
+
+### ---------------------------------------------------------
+
+### 3. TESTE DE SUCESSO: Criar produto ENVIANDO O TOKEN DO ADMIN CORRETO
+POST http://localhost:3000/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZDE1YzE5YS0xNDYxLTRhMjEtOTVhYS1hNWM2MTljYzc1MzYiLCJlbWFpbCI6ImFkbWluYnJhc2lsQGJ1dGVjb2RvcGFwYS5jb20iLCJuYW1lIjoiUGFww6EgZG8gQnV0ZWNvIEZvcnRlIDIiLCJpYXQiOjE3OTI3NzYxNzEsImV4cCI6MTc5MzM4MDk3MX0.dswSftLYnS9pmwntGeWCHZvQvO8ciXLhXwjrYFAzOpc
+
+{
+  "name": "Heineken Proibida (Protegida por JWT)",
+  "description": "Gelada e exclusiva para o Admin",
+  "price": "18.00",
+  "categoryId": "cat-1"
+}
