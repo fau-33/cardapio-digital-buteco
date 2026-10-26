@@ -19,10 +19,21 @@ export async function apiFetch<T>(
   });
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(
-      errorData.message || `Erro na requisição: ${response.status}`
-    );
+    let errorMessage = `Erro na requisição: ${response.status}`;
+    try {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await response.json();
+        if (errorData?.message) {
+          errorMessage = Array.isArray(errorData.message)
+            ? errorData.message.join(", ")
+            : errorData.message;
+        }
+      }
+    } catch {
+      // Falha ao obter detalhes do erro
+    }
+    throw new Error(errorMessage);
   }
 
   return response.json();
