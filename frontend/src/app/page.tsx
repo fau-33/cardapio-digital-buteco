@@ -5,6 +5,7 @@ import { apiFetch } from "@/lib/api";
 import { Category } from "@/types";
 import { Header } from "@/components/menu/Header";
 import { CategoryTabs } from "@/components/menu/CategoryTabs";
+import { ProductCard } from "@/components/menu/ProductCard";
 
 export default function Home() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -31,8 +32,12 @@ export default function Home() {
     loadMenu();
   }, []);
 
+  const currentCategory = categories.find(
+    (cat) => cat.id === selectedCategoryId
+  );
+
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-white">
+    <div className="min-h-screen bg-[#0D0D0D] text-white pb-12">
       {/* Cabeçalho Rústico */}
       <Header />
 
@@ -43,20 +48,22 @@ export default function Home() {
         onSelectCategory={setSelectedCategoryId}
       />
 
-      {/* Conteúdo Principal */}
-      <main className="p-4 max-w-2xl mx-auto">
+      {/* Lista de Produtos */}
+      <main className="p-4 max-w-2xl mx-auto space-y-3">
         {loading ? (
-          <div className="p-6 text-center text-amber-500 animate-pulse font-medium">
+          <div className="p-8 text-center text-amber-500 animate-pulse font-medium">
             Carregando cardápio...
           </div>
-        ) : categories.length === 0 ? (
+        ) : !currentCategory ||
+          !currentCategory.products ||
+          currentCategory.products.length === 0 ? (
           <div className="p-8 text-center text-zinc-500 text-sm">
-            Nenhuma categoria ou produto cadastrado no momento.
+            Nenhum produto disponível nesta categoria no momento.
           </div>
         ) : (
-          <p className="text-xs text-zinc-500 text-center">
-            {categories.length} categoria(s) pronta(s) para exibição
-          </p>
+          currentCategory.products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
         )}
       </main>
     </div>
