@@ -8,6 +8,7 @@ import { CategoryTabs } from "@/components/menu/CategoryTabs";
 import { ProductCard } from "@/components/menu/ProductCard";
 import { CategoryTabsSkeleton } from "@/components/menu/CategoryTabsSkeleton";
 import { MenuSkeletonList } from "@/components/menu/ProductSkeleton";
+import { Footer } from "@/components/menu/Footer";
 
 export default function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -36,40 +37,45 @@ export default function HomePage() {
   const selectedCategory = categories.find((c) => c.id === selectedCategoryId);
 
   return (
-    <main className="min-h-screen bg-[#0D0D0D] text-white pb-12">
-      <Header />
+    <main className="min-h-screen bg-[#0D0D0D] text-white flex flex-col justify-between pb-0">
+      <div>
+        <Header />
 
-      {loading ? (
-        <>
-          <CategoryTabsSkeleton />
-          <MenuSkeletonList />
-        </>
-      ) : (
-        <>
-          <CategoryTabs
-            categories={categories}
-            selectedCategoryId={selectedCategoryId}
-            onSelectCategory={setSelectedCategoryId}
-          />
+        {loading ? (
+          <>
+            <CategoryTabsSkeleton />
+            <MenuSkeletonList />
+          </>
+        ) : (
+          <>
+            <CategoryTabs
+              categories={categories}
+              selectedCategoryId={selectedCategoryId}
+              onSelectCategory={setSelectedCategoryId}
+            />
 
-          <section className="max-w-3xl mx-auto px-4 py-6">
-            {selectedCategory && (
-              <div>
-                <h2 className="text-xl font-extrabold text-[#F59E0B] mb-4 uppercase tracking-wider flex items-center gap-2">
-                  <span className="w-2 h-2 bg-[#F59E0B] rounded-full inline-block"></span>
-                  {selectedCategory.name}
-                </h2>
+            <section className="max-w-3xl mx-auto px-4 py-6">
+              {selectedCategory && (
+                <div>
+                  <h2 className="text-xl font-extrabold text-[#F59E0B] mb-4 uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-2 h-2 bg-[#F59E0B] rounded-full inline-block"></span>
+                    {selectedCategory.name}
+                  </h2>
 
-                <div className="grid gap-3">
-                  {(selectedCategory.products ?? []).map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
+                  <div className="grid gap-3">
+                    {(selectedCategory.products ?? []).map((product) => (
+                      <ProductCard key={product.id} product={product} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </section>
-        </>
-      )}
+              )}
+            </section>
+          </>
+        )}
+      </div>
+
+      {/* Rodapé Oficial com conformidade LGPD e Acesso Dev / Admin */}
+      <Footer />
     </main>
   );
 }
