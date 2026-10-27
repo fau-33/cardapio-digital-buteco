@@ -112,22 +112,22 @@ export function CategoryTabs({
       role="region"
       aria-label="Categorias do cardápio"
     >
-      <div className="max-w-3xl mx-auto relative flex items-center px-2">
-        {/* Seta Esquerda */}
+      <div className="max-w-3xl mx-auto relative flex items-center px-1">
+        {/* Seta Esquerda (Visível em Mobile e Desktop) */}
         {showLeftArrow && (
           <button
             onClick={() => {
-              scrollByAmount(-200);
+              scrollByAmount(-180);
               handlePrevCategory();
             }}
-            className="absolute left-1 z-10 bg-[#18181B]/90 hover:bg-[#27272A] text-amber-500 border border-[#27272A] p-2 rounded-full shadow-lg transition-all hidden md:flex items-center justify-center backdrop-blur"
+            className="absolute left-1 z-10 bg-[#18181B]/95 hover:bg-[#27272A] text-amber-500 border border-[#27272A] p-2 rounded-full shadow-lg transition-all flex items-center justify-center backdrop-blur active:scale-95 touch-manipulation"
             aria-label="Categoria anterior"
           >
             <ChevronLeft size={18} />
           </button>
         )}
 
-        {/* Lista de Categorias com Rolagem Suave e Touch/Mouse Drag */}
+        {/* Lista de Categorias com Rolagem Suave, Touch e Mouse Drag */}
         <nav
           ref={scrollRef}
           onScroll={checkScroll}
@@ -135,7 +135,7 @@ export function CategoryTabs({
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
-          className="w-full overflow-x-auto py-4 px-3 no-scrollbar flex items-center gap-2 select-none cursor-grab active:cursor-grabbing scroll-smooth"
+          className="w-full overflow-x-auto py-4 px-8 no-scrollbar flex items-center gap-2 select-none cursor-grab active:cursor-grabbing scroll-smooth"
         >
           {categories.map((category) => {
             const isActive = selectedCategoryId === category.id;
@@ -164,14 +164,14 @@ export function CategoryTabs({
           })}
         </nav>
 
-        {/* Seta Direita */}
+        {/* Seta Direita (Visível em Mobile e Desktop) */}
         {showRightArrow && (
           <button
             onClick={() => {
-              scrollByAmount(200);
+              scrollByAmount(180);
               handleNextCategory();
             }}
-            className="absolute right-1 z-10 bg-[#18181B]/90 hover:bg-[#27272A] text-amber-500 border border-[#27272A] p-2 rounded-full shadow-lg transition-all hidden md:flex items-center justify-center backdrop-blur"
+            className="absolute right-1 z-10 bg-[#18181B]/95 hover:bg-[#27272A] text-amber-500 border border-[#27272A] p-2 rounded-full shadow-lg transition-all flex items-center justify-center backdrop-blur active:scale-95 touch-manipulation"
             aria-label="Próxima categoria"
           >
             <ChevronRight size={18} />
