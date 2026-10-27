@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { apiFetch } from "@/lib/api";
 import { Category } from "@/types";
+import { apiFetch } from "@/lib/apiFetch";
 import { Header } from "@/components/menu/Header";
 import { CategoryTabs } from "@/components/menu/CategoryTabs";
 import { ProductCard } from "@/components/menu/ProductCard";
+import { CategoryTabsSkeleton } from "@/components/menu/CategoryTabsSkeleton";
+import { MenuSkeletonList } from "@/components/menu/ProductSkeleton";
 
-export default function Home() {
+export default function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
@@ -15,7 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadMenu() {
+    async function loadData() {
       try {
         const data = await apiFetch<Category[]>("/categories/menu");
         setCategories(data);
@@ -23,49 +25,51 @@ export default function Home() {
           setSelectedCategoryId(data[0].id);
         }
       } catch (error) {
-        console.error("Erro ao carregar o cardápio:", error);
+        console.error("Erro ao carregar cardápio:", error);
       } finally {
         setLoading(false);
       }
     }
-
-    loadMenu();
+    loadData();
   }, []);
 
-  const currentCategory = categories.find(
-    (cat) => cat.id === selectedCategoryId
-  );
+  const selectedCategory = categories.find((c) => c.id === selectedCategoryId);
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-white pb-12">
-      {/* Cabeçalho Rústico */}
+    <main className="min-h-screen bg-[#0D0D0D] text-white pb-12">
       <Header />
 
-      {/* Barra de Categorias */}
-      <CategoryTabs
-        categories={categories}
-        selectedCategoryId={selectedCategoryId}
-        onSelectCategory={setSelectedCategoryId}
-      />
+      {loading ? (
+        <>
+          <CategoryTabsSkeleton />
+          <MenuSkeletonList />
+        </>
+      ) : (
+        <>
+          <CategoryTabs
+            categories={categories}
+            selectedCategoryId={selectedCategoryId}
+            onSelectCategory={setSelectedCategoryId}
+          />
 
-      {/* Lista de Produtos */}
-      <main className="p-4 max-w-2xl mx-auto space-y-3">
-        {loading ? (
-          <div className="p-8 text-center text-amber-500 animate-pulse font-medium">
-            Carregando cardápio...
-          </div>
-        ) : !currentCategory ||
-          !currentCategory.products ||
-          currentCategory.products.length === 0 ? (
-          <div className="p-8 text-center text-zinc-500 text-sm">
-            Nenhum produto disponível nesta categoria no momento.
-          </div>
-        ) : (
-          currentCategory.products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))
-        )}
-      </main>
-    </div>
+          <section className="max-w-3xl mx-auto px-4 py-6">
+            {selectedCategory && (
+              <div>
+                <h2 className="text-xl font-extrabold text-[#F59E0B] mb-4 uppercase tracking-wider flex items-center gap-2">
+                  <span className="w-2 h-2 bg-[#F59E0B] rounded-full inline-block"></span>
+                  {selectedCategory.name}
+                </h2>
+
+                <div className="grid gap-3">
+                  {(selectedCategory.products ?? []).map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </section>
+        </>
+      )}
+    </main>
   );
 }
