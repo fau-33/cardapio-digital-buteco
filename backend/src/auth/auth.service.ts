@@ -86,8 +86,7 @@ export class AuthService {
     }
 
     // 3. Gerar o Token JWT de Acesso
-    const payload = { sub: user.id, email: user.email, name: user.name };
-    const accessToken = this.jwtService.sign(payload);
+    const accessToken = this.generateAccessToken(user);
 
     return {
       message: 'Login realizado com sucesso!',
@@ -99,6 +98,45 @@ export class AuthService {
         createdAt: formatToBrazilTime(user.createdAt),
       },
     };
+  }
+
+  // Gera o token JWT de acesso para um usuário autenticado
+  generateAccessToken(user: { id: string; email: string; name: string }) {
+    const payload = { sub: user.id, email: user.email, name: user.name };
+    return this.jwtService.sign(payload);
+  }
+
+  // Busca ou registra um administrador autenticado via Google OAuth
+  async validateGoogleUser(data: {
+    email: string;
+    name: string;
+    photo?: string;
+  }) {
+    const [existingUser] = await this.db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.email, data.email));
+
+    if (existingUser) {
+      return existingUser;
+    }
+
+    // Usuários do Google não possuem senha local. Geramos um hash aleatório
+    // para satisfazer a coluna NOT NULL e impedir login por senha.
+    const randomPassword = crypto.randomBytes(32).toString('hex');
+    const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+    const [newUser] = await this.db
+      .insert(schema.users)
+      .values({
+        id: crypto.randomUUID(),
+        name: data.name,
+        email: data.email,
+        password: hashedPassword,
+      })
+      .returning();
+
+    return newUser;
   }
 
   // 1. Solicitar recuperação de senha
