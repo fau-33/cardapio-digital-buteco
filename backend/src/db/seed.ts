@@ -208,7 +208,7 @@ async function main() {
     await db.insert(schema.categories).values({
       id: categoryId,
       name: category.name,
-      order: String(category.order),
+      order: category.order,
     });
 
     await db.insert(schema.products).values(

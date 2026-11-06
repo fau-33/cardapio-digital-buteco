@@ -31,7 +31,7 @@ export class CategoriesController {
   // 🔒 PROTEGIDO: Criar nova categoria
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() body: { name: string; order?: string }) {
+  async create(@Body() body: { name: string; order?: number | string }) {
     return await this.categoriesService.create(body);
   }
 
@@ -40,7 +40,7 @@ export class CategoriesController {
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() body: { name?: string; order?: string },
+    @Body() body: { name?: string; order?: number | string },
   ) {
     return await this.categoriesService.update(id, body);
   }
@@ -50,7 +50,7 @@ export class CategoriesController {
   @Patch(':id')
   async patch(
     @Param('id') id: string,
-    @Body() body: { name?: string; order?: string },
+    @Body() body: { name?: string; order?: number | string },
   ) {
     return await this.categoriesService.update(id, body);
   }

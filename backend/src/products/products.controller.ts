@@ -16,10 +16,23 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  // 🔓 PÚBLICO: Qualquer cliente no QR Code pode ver a lista de produtos
+  // 🔓 PÚBLICO: Qualquer cliente no QR Code vê apenas produtos ativos/disponíveis
   @Get()
   async findAll() {
     return await this.productsService.findAll();
+  }
+
+  // 🔒 PROTEGIDO: Admin logado vê todos os produtos (ativos e inativos)
+  @UseGuards(JwtAuthGuard)
+  @Get('all')
+  async findAllAdmin() {
+    return await this.productsService.findAllAdmin();
+  }
+
+  // 🔓 PÚBLICO: Busca um produto ativo por ID (retorna 404 se não existir)
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return await this.productsService.findOne(id);
   }
 
   // 🔒 PROTEGIDO: Apenas o Admin logado pode criar produtos
@@ -32,6 +45,8 @@ export class ProductsController {
       description?: string;
       price: string;
       categoryId: string;
+      isNovelty?: boolean;
+      isActive?: boolean;
     },
   ) {
     return await this.productsService.create(body);
@@ -48,6 +63,7 @@ export class ProductsController {
       description?: string;
       price?: string;
       categoryId?: string;
+      isNovelty?: boolean;
       isActive?: boolean;
     },
   ) {
@@ -65,6 +81,7 @@ export class ProductsController {
       description?: string;
       price?: string;
       categoryId?: string;
+      isNovelty?: boolean;
       isActive?: boolean;
     },
   ) {

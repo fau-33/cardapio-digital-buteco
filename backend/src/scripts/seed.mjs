@@ -7,7 +7,7 @@
 
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { pgTable, text, varchar, timestamp, boolean, decimal } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, varchar, timestamp, boolean, decimal } from 'drizzle-orm/pg-core';
 import { eq } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
@@ -18,7 +18,7 @@ import crypto from 'crypto';
 const categories = pgTable('categories', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
-  order: text('order').default('0'),
+  order: integer('order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
@@ -260,7 +260,7 @@ async function seed() {
     await db.insert(categories).values({
       id: cat.id,
       name: cat.name,
-      order: cat.order,
+      order: Number(cat.order),
     });
 
     // Monta e insere produtos em lote
@@ -280,14 +280,16 @@ async function seed() {
   // -------------------------------------------------------------------------
   console.log('\n👤  Verificando usuário admin...');
 
-  const ADMIN_EMAIL = 'admin@buteco.com';
-  const ADMIN_NAME  = 'Administrador';
-  const ADMIN_PASS  = 'Admin@2026';   // ← troque após o primeiro login!
+  const ADMIN_EMAIL = process.env.ADMIN_INITIAL_EMAIL || 'admin@buteco.com';
+  const ADMIN_NAME  = process.env.ADMIN_INITIAL_NAME || 'Administrador';
+  const ADMIN_PASS  = process.env.ADMIN_INITIAL_PASSWORD; // ← definido no .env, nunca no código
 
   const [existing] = await db.select().from(users).where(eq(users.email, ADMIN_EMAIL));
 
   if (existing) {
     console.log(`   ⚠  Admin "${ADMIN_EMAIL}" já existe — mantido sem alterações.`);
+  } else if (!ADMIN_PASS) {
+    console.log('   ⚠  ADMIN_INITIAL_PASSWORD não definida no .env — admin inicial NÃO foi criado.');
   } else {
     const hashedPassword = await bcrypt.hash(ADMIN_PASS, 10);
     await db.insert(users).values({
@@ -296,7 +298,7 @@ async function seed() {
       email: ADMIN_EMAIL,
       password: hashedPassword,
     });
-    console.log(`   ✔ Admin criado: ${ADMIN_EMAIL} / senha: ${ADMIN_PASS}`);
+    console.log(`   ✔ Admin criado: ${ADMIN_EMAIL} (senha definida em ADMIN_INITIAL_PASSWORD)`);
     console.log('   ⚠  Troque a senha após o primeiro login!');
   }
 

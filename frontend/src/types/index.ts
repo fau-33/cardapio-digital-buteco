@@ -12,7 +12,7 @@ export interface Product {
 export interface Category {
   id: string;
   name: string;
-  order?: string;
+  order?: number;
   createdAt?: string;
   products?: Product[];
 }
@@ -21,9 +21,11 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  createdAt?: string;
 }
 
 export interface AuthResponse {
-  user: User;
-  token: string;
+  message?: string;
+  accessToken: string;
+  admin: User;
 }

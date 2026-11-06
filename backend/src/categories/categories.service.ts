@@ -10,6 +10,12 @@ import { formatToBrazilTime } from '../common/utils/date.helper.js';
 export class CategoriesService {
   constructor(@Inject(DRIZZLE) private db: NeonHttpDatabase<typeof schema>) {}
 
+  private normalizeOrder(order: number | string | undefined, fallback = 0): number {
+    if (order === undefined || order === null || order === '') return fallback;
+    const parsed = typeof order === 'number' ? order : Number.parseInt(order, 10);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
   // Listar todas as categorias
   async findAll() {
     const categories = await this.db
@@ -24,13 +30,13 @@ export class CategoriesService {
   }
 
   // Criar nova categoria
-  async create(data: { id?: string; name: string; order?: string }) {
+  async create(data: { id?: string; name: string; order?: number | string }) {
     const [newCategory] = await this.db
       .insert(schema.categories)
       .values({
         id: data.id || `cat-${crypto.randomUUID().slice(0, 8)}`,
         name: data.name,
-        order: data.order || '0',
+        order: this.normalizeOrder(data.order, 0),
       })
       .returning();
 
@@ -41,7 +47,10 @@ export class CategoriesService {
   }
 
   // Atualizar Categoria
-  async update(id: string, data: { name?: string; order?: string }) {
+  async update(
+    id: string,
+    data: { name?: string; order?: number | string },
+  ) {
     const [existing] = await this.db
       .select()
       .from(schema.categories)
@@ -55,7 +64,9 @@ export class CategoriesService {
       .update(schema.categories)
       .set({
         ...(data.name && { name: data.name }),
-        ...(data.order !== undefined && { order: data.order }),
+        ...(data.order !== undefined && {
+          order: this.normalizeOrder(data.order, existing.order),
+        }),
       })
       .where(eq(schema.categories.id, id))
       .returning();
@@ -94,7 +105,8 @@ export class CategoriesService {
     const products = await this.db
       .select()
       .from(schema.products)
-      .where(eq(schema.products.isActive, true));
+      .where(eq(schema.products.isActive, true))
+      .orderBy(asc(schema.products.name));
 
     return categories.map((category) => ({
       ...category,

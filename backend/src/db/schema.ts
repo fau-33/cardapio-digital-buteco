@@ -1,6 +1,7 @@
 import {
   pgTable,
   text,
+  integer,
   varchar,
   timestamp,
   boolean,
@@ -11,7 +12,7 @@ import {
 export const categories = pgTable('categories', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
-  order: text('order').default('0'),
+  order: integer('order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
