@@ -14,7 +14,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET') || 'fallback_secret',
+        // Sem fallback: a aplicação não sobe sem JWT_SECRET (ver main.ts)
+        secret: configService.getOrThrow<string>('JWT_SECRET'),
         signOptions: { expiresIn: '7d' }, // O token expira em 7 dias
       }),
     }),

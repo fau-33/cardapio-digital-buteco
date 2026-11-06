@@ -5,9 +5,13 @@ import { useRouter } from "next/navigation";
 import { Lock, Mail, Loader2, ArrowLeft, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
+// O login com Google só é exibido como ativo quando o backend estiver configurado
+const GOOGLE_AUTH_ENABLED =
+  process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "true";
+
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@buteco.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -48,9 +52,10 @@ export default function AdminLoginPage() {
   };
 
   const handleGoogleLogin = () => {
+    if (!GOOGLE_AUTH_ENABLED) return;
     const API_URL =
       process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-    window.location.href = `${API_URL}/auth/google`;
+    window.location.assign(`${API_URL}/auth/google`);
   };
 
   return (
@@ -77,11 +82,17 @@ export default function AdminLoginPage() {
           </div>
         )}
 
-        {/* 1. Botão de Login com Google */}
+        {/* 1. Botão de Login com Google (desabilitado até NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true) */}
         <button
           type="button"
           onClick={handleGoogleLogin}
-          className="w-full bg-[#27272A] hover:bg-[#3F3F46] text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl border border-[#3F3F46] transition-all flex items-center justify-center gap-3 mb-6 active:scale-[0.98]"
+          disabled={!GOOGLE_AUTH_ENABLED}
+          title={
+            GOOGLE_AUTH_ENABLED
+              ? undefined
+              : "Login com Google ainda não configurado"
+          }
+          className="w-full bg-[#27272A] hover:bg-[#3F3F46] text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl border border-[#3F3F46] transition-all flex items-center justify-center gap-3 mb-6 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#27272A] disabled:active:scale-100"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -101,7 +112,7 @@ export default function AdminLoginPage() {
               d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16c1.8 3.7 5.6 7 10.1 7z"
             />
           </svg>
-          Entrar com Google
+          {GOOGLE_AUTH_ENABLED ? "Entrar com Google" : "Google (em breve)"}
         </button>
 
         <div className="relative flex items-center justify-center mb-6">
@@ -178,18 +189,8 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        {/* 3. Link para Cadastro de Novo Admin */}
+        {/* 3. Cadastro público removido: novos admins só com código de autorização */}
         <div className="mt-6 pt-4 border-t border-[#27272A]/50 text-center space-y-2">
-          <p className="text-xs text-zinc-400">
-            Ainda não possui conta?{" "}
-            <Link
-              href="/admin/register"
-              className="text-[#F59E0B] font-bold hover:underline"
-            >
-              Cadastre-se aqui
-            </Link>
-          </p>
-
           <div className="flex items-center justify-center gap-1.5 text-[10px] text-zinc-500 pt-1">
             <ShieldCheck size={13} className="text-emerald-500" />
             <span>Acesso exclusivo para administradores</span>

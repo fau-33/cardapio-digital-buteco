@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-google-oauth20';
@@ -11,6 +11,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     configService: ConfigService,
     private readonly authService: AuthService,
   ) {
+    // Os placeholders só existem para a estratégia poder ser instanciada sem
+    // credenciais. O GoogleOAuthGuard bloqueia o fluxo enquanto não houver
+    // GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET reais.
     super({
       clientID:
         configService.get<string>('GOOGLE_CLIENT_ID') ||
@@ -37,7 +40,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
 
       if (!email || !isEmailVerified) {
         return done(
-          new Error(
+          new UnauthorizedException(
             'Não foi possível autenticar: o Google não retornou um e-mail verificado.',
           ),
           false,
@@ -49,6 +52,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         profile.name?.givenName ||
         email.split('@')[0];
 
+      // Só autentica e-mails já cadastrados ou presentes em ALLOWED_ADMIN_EMAILS
       const user = await this.authService.validateGoogleUser({
         email,
         name,

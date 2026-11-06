@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Mail, User, Loader2, ArrowLeft } from "lucide-react";
+import { Lock, Mail, User, Loader2, ArrowLeft, KeyRound } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminRegisterPage() {
@@ -10,6 +10,7 @@ export default function AdminRegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [registrationSecret, setRegistrationSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -25,7 +26,10 @@ export default function AdminRegisterPage() {
         process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-registration-secret": registrationSecret,
+        },
         body: JSON.stringify({ name, email, password }),
       });
 
@@ -41,8 +45,10 @@ export default function AdminRegisterPage() {
       setTimeout(() => {
         router.push("/admin/login");
       }, 2000);
-    } catch (err: any) {
-      setError(err.message || "Erro ao realizar cadastro.");
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error ? err.message : "Erro ao realizar cadastro.";
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -131,6 +137,26 @@ export default function AdminRegisterPage() {
                 required
                 className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-[#F59E0B] transition-colors"
                 placeholder="••••••••"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
+              Código de Autorização
+            </label>
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500">
+                <KeyRound size={18} />
+              </span>
+              <input
+                type="password"
+                value={registrationSecret}
+                onChange={(e) => setRegistrationSecret(e.target.value)}
+                required
+                autoComplete="off"
+                className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-[#F59E0B] transition-colors"
+                placeholder="Fornecido pelo responsável do sistema"
               />
             </div>
           </div>
