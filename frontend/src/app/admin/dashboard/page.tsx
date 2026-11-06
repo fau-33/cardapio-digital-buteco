@@ -33,7 +33,7 @@ import {
 type TabType = "products" | "categories";
 
 const menuUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://butecodopapa.com";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://cardapio-buteco-papa.vercel.app";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -1152,15 +1152,27 @@ export default function AdminDashboardPage() {
                 className="w-56 h-56 sm:w-64 sm:h-64 object-contain"
               />
               <span className="mt-2 text-[11px] font-extrabold uppercase tracking-widest text-zinc-800">
-                Buteco do Papa • Cardápio Digital
+                Buteco do Papá • Cardápio Digital
+              </span>
+              <span className="mt-1 text-[10px] font-semibold text-zinc-500">
+                PNG 1000×1000px • Correção de Erro Alta (ECC H)
               </span>
             </div>
 
             {/* Link Permanente + Botão de Copiar com 1 Clique */}
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">
-                Link Permanente do Cardápio
-              </label>
+              <div className="flex items-center justify-between gap-2">
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                  Link Permanente do Cardápio
+                </label>
+                <span className="text-[10px] font-semibold text-[#F59E0B]">
+                  Universal p/ todas as mesas
+                </span>
+              </div>
+              <p className="text-xs text-zinc-300 font-medium break-all bg-[#0D0D0D]/60 border border-[#27272A] rounded-lg px-3 py-2">
+                Link ativo nas mesas:{" "}
+                <strong className="text-[#F59E0B] font-mono">{menuUrl}</strong>
+              </p>
               <div className="flex items-center gap-2">
                 <input
                   type="text"
