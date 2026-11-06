@@ -36,8 +36,7 @@ export function Footer() {
         </div>
 
         <p className="text-[10px] text-zinc-600 pt-4">
-          © {new Date().getFullYear()} Buteco do Papá. Todos os direitos
-          reservados.
+          © 2026 Buteco do Papá. Todos os direitos reservados.
         </p>
       </div>
     </footer>
