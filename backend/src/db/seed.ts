@@ -156,12 +156,36 @@ const menu: SeedCategory[] = [
     name: 'Caldos',
     order: 2,
     products: [
-      { name: 'Caldo de Camarão', price: 18.0 },
-      { name: 'Caldo de Feijão', price: 15.0 },
-      { name: 'Caldo de Mocotó', price: 15.0 },
-      { name: 'Caldo de Quenga', price: 18.0 },
-      { name: 'Caldo de Sururu', price: 18.0 },
-      { name: 'Caldo Verde', price: 18.0 },
+      {
+        name: 'Caldo de Camarão',
+        price: 18.0,
+        imageUrl: '/images/caldos/caldo-camarao.jpg',
+      },
+      {
+        name: 'Caldo de Feijão',
+        price: 15.0,
+        imageUrl: '/images/caldos/caldo-feijao.jpg',
+      },
+      {
+        name: 'Caldo de Mocotó',
+        price: 15.0,
+        imageUrl: '/images/caldos/caldo-mocoto.jpg',
+      },
+      {
+        name: 'Caldo de Quenga',
+        price: 18.0,
+        imageUrl: '/images/caldos/caldo-quenga.jpg',
+      },
+      {
+        name: 'Caldo de Sururu',
+        price: 18.0,
+        imageUrl: '/images/caldos/caldo-sururu.jpg',
+      },
+      {
+        name: 'Caldo Verde',
+        price: 18.0,
+        imageUrl: '/images/caldos/caldo-verde.jpg',
+      },
     ],
   },
   {

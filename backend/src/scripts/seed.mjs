@@ -106,12 +106,12 @@ const MENU = [
   {
     id: catId('caldos'), name: 'Caldos', order: '2',
     products: [
-      ['Caldo de Camarão',  18.00],
-      ['Caldo de Feijão',   15.00],
-      ['Caldo de Mocotó',   15.00],
-      ['Caldo de Quenga',   18.00],
-      ['Caldo de Sururu',   18.00],
-      ['Caldo Verde',       18.00],
+      ['Caldo de Camarão',  18.00, false, '/images/caldos/caldo-camarao.jpg'],
+      ['Caldo de Feijão',   15.00, false, '/images/caldos/caldo-feijao.jpg'],
+      ['Caldo de Mocotó',   15.00, false, '/images/caldos/caldo-mocoto.jpg'],
+      ['Caldo de Quenga',   18.00, false, '/images/caldos/caldo-quenga.jpg'],
+      ['Caldo de Sururu',   18.00, false, '/images/caldos/caldo-sururu.jpg'],
+      ['Caldo Verde',       18.00, false, '/images/caldos/caldo-verde.jpg'],
     ],
   },
 

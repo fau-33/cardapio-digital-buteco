@@ -1,6 +1,6 @@
 import { Category, Product } from "@/types";
 
-const MENU_CACHE_KEY = "buteco_papa_menu_cache_v4";
+const MENU_CACHE_KEY = "buteco_papa_menu_cache_v5";
 
 type RawSeedItem = [
   name: string,
@@ -127,12 +127,12 @@ export const INITIAL_MENU_CATEGORIES: Category[] = [
     ["Siri Catado", 50.0, true, "/images/petiscos/siri-catado.jpg"],
   ]),
   buildCategory("cat-caldos", "Caldos", 2, [
-    ["Caldo de Camarão", 18.0],
-    ["Caldo de Feijão", 15.0],
-    ["Caldo de Mocotó", 15.0],
-    ["Caldo de Quenga", 18.0],
-    ["Caldo de Sururu", 18.0],
-    ["Caldo Verde", 18.0],
+    ["Caldo de Camarão", 18.0, false, "/images/caldos/caldo-camarao.jpg"],
+    ["Caldo de Feijão", 15.0, false, "/images/caldos/caldo-feijao.jpg"],
+    ["Caldo de Mocotó", 15.0, false, "/images/caldos/caldo-mocoto.jpg"],
+    ["Caldo de Quenga", 18.0, false, "/images/caldos/caldo-quenga.jpg"],
+    ["Caldo de Sururu", 18.0, false, "/images/caldos/caldo-sururu.jpg"],
+    ["Caldo Verde", 18.0, false, "/images/caldos/caldo-verde.jpg"],
   ]),
   buildCategory("cat-refeicoes", "Refeições", 3, [
     ["Dobradinha (1 pessoa)", 35.0],

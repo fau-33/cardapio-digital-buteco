@@ -137,6 +137,26 @@ export function getFallbackProductImageUrl(
     return "/images/petiscos/siri-catado.jpg";
   }
 
+  // Imagens reais locais dos Caldos oficiais do Buteco do Papá
+  if (name === "caldo de camarao" || name.startsWith("caldo de camarao")) {
+    return "/images/caldos/caldo-camarao.jpg";
+  }
+  if (name === "caldo de feijao" || name.startsWith("caldo de feijao")) {
+    return "/images/caldos/caldo-feijao.jpg";
+  }
+  if (name === "caldo de mocoto" || name.startsWith("caldo de mocoto")) {
+    return "/images/caldos/caldo-mocoto.jpg";
+  }
+  if (name === "caldo de quenga" || name.startsWith("caldo de quenga")) {
+    return "/images/caldos/caldo-quenga.jpg";
+  }
+  if (name === "caldo de sururu" || name.startsWith("caldo de sururu")) {
+    return "/images/caldos/caldo-sururu.jpg";
+  }
+  if (name === "caldo verde" || name.startsWith("caldo verde")) {
+    return "/images/caldos/caldo-verde.jpg";
+  }
+
   // 1. Caldos e Sopas
   if (
     hasAnyKeyword(name, ["caldo", "mocoto", "sururu", "quenga", "sopa"]) ||
