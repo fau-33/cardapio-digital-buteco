@@ -1,16 +1,19 @@
-import {
-  ExecutionContext,
-  Injectable,
-  ServiceUnavailableException,
-} from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
+import type { Request } from 'express';
+
+export type GoogleAuthRequest = Request & {
+  googleNotConfigured?: boolean;
+  googleAuthError?: string;
+};
 
 /**
  * Guard do fluxo OAuth do Google.
- * Enquanto GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET não estiverem configurados
- * (ausentes ou com placeholder), responde 503 em vez de redirecionar o usuário
- * para um consentimento inválido.
+ * Verifica se GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET estão configurados.
+ * Caso ainda não estejam preenchidos no servidor (ex.: Render), sinaliza na
+ * request para que o controller redirecione amigavelmente de volta ao login
+ * (/admin/login?error=google_not_configured) em vez de exibir JSON 503 bruto.
  */
 @Injectable()
 export class GoogleOAuthGuard extends AuthGuard('google') {
@@ -19,20 +22,39 @@ export class GoogleOAuthGuard extends AuthGuard('google') {
   }
 
   canActivate(context: ExecutionContext) {
-    const clientId = this.configService.get<string>('GOOGLE_CLIENT_ID');
-    const clientSecret = this.configService.get<string>('GOOGLE_CLIENT_SECRET');
+    const req = context.switchToHttp().getRequest<GoogleAuthRequest>();
+    const clientId = this.configService.get<string>('GOOGLE_CLIENT_ID')?.trim();
+    const clientSecret = this.configService
+      .get<string>('GOOGLE_CLIENT_SECRET')
+      ?.trim();
 
-    // Um Client ID real do Google sempre termina em ".apps.googleusercontent.com";
-    // qualquer outro valor é tratado como placeholder.
     const isConfigured =
-      !!clientSecret && !!clientId?.endsWith('.apps.googleusercontent.com');
+      Boolean(clientSecret) &&
+      clientSecret !== 'GOOGLE_CLIENT_SECRET_NOT_CONFIGURED' &&
+      Boolean(clientId) &&
+      clientId !== 'GOOGLE_CLIENT_ID_NOT_CONFIGURED' &&
+      Boolean(clientId?.endsWith('.apps.googleusercontent.com'));
 
     if (!isConfigured) {
-      throw new ServiceUnavailableException(
-        'Login com Google ainda não está configurado.',
-      );
+      req.googleNotConfigured = true;
+      return true;
     }
 
     return super.canActivate(context);
+  }
+
+  handleRequest<TUser = unknown>(
+    err: unknown,
+    user: TUser,
+    _info: unknown,
+    context: ExecutionContext,
+  ): TUser {
+    if (err || !user) {
+      const req = context.switchToHttp().getRequest<GoogleAuthRequest>();
+      req.googleAuthError =
+        err instanceof Error ? err.message : 'google_auth_failed';
+      return null as unknown as TUser;
+    }
+    return user;
   }
 }

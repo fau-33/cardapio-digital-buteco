@@ -25,16 +25,10 @@ import {
   X,
   Check,
   Beer,
-  QrCode,
-  Download,
-  Copy,
-  ShieldCheck,
+  Code2,
 } from "lucide-react";
 
 type TabType = "products" | "categories";
-
-const menuUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://cardapio-buteco-papa.vercel.app";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -77,47 +71,17 @@ export default function AdminDashboardPage() {
   const [catOrder, setCatOrder] = useState("1");
   const [savingCategory, setSavingCategory] = useState(false);
 
-  // Modal de QR Code Permanente
-  const [qrModalOpen, setQrModalOpen] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
-  const [downloadingQr, setDownloadingQr] = useState(false);
-
-  const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&format=png&margin=20&ecc=H&data=${encodeURIComponent(
-    menuUrl
-  )}`;
-
-  const handleCopyMenuUrl = async () => {
-    try {
-      await navigator.clipboard.writeText(menuUrl);
-      setCopiedLink(true);
-      showToast("success", "Link permanente do cardápio copiado!");
-      setTimeout(() => setCopiedLink(false), 2500);
-    } catch {
-      showToast("error", "Não foi possível copiar o link automaticamente.");
-    }
-  };
-
-  const handleDownloadQrCode = async () => {
-    setDownloadingQr(true);
-    try {
-      const response = await fetch(qrCodeImageUrl);
-      if (!response.ok) throw new Error("Falha ao gerar arquivo PNG.");
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = "qrcode-cardapio-buteco-do-papa-alta-resolucao.png";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(blobUrl);
-      showToast("success", "QR Code em alta resolução (PNG) baixado!");
-    } catch {
-      window.open(qrCodeImageUrl, "_blank", "noopener,noreferrer");
-    } finally {
-      setDownloadingQr(false);
-    }
-  };
+  // Verifica se o usuário logado é o Desenvolvedor (Flávio / ZyonTech)
+  const isDeveloper = useMemo(() => {
+    if (!adminUser) return false;
+    const identity = `${adminUser.name} ${adminUser.email}`.toLowerCase();
+    return (
+      identity.includes("flavio") ||
+      identity.includes("flávio") ||
+      identity.includes("fau") ||
+      identity.includes("zyon")
+    );
+  }, [adminUser]);
 
   // Estado de ação rápida por linha
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -536,14 +500,16 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setQrModalOpen(true)}
-              className="inline-flex items-center gap-1.5 text-xs font-extrabold bg-[#F59E0B]/15 hover:bg-[#F59E0B]/25 text-[#F59E0B] border border-[#F59E0B]/40 px-3 py-2 rounded-xl transition-colors"
-            >
-              <QrCode size={14} />
-              QR Code das Mesas
-            </button>
+            {isDeveloper && (
+              <Link
+                href="/admin/dev"
+                className="inline-flex items-center gap-1.5 text-xs font-extrabold bg-[#F59E0B]/15 hover:bg-[#F59E0B]/25 text-[#F59E0B] border border-[#F59E0B]/40 px-3 py-2 rounded-xl transition-colors"
+                title="Acesso exclusivo do Desenvolvedor (Gerador de QR Code)"
+              >
+                <Code2 size={14} />
+                Painel Dev
+              </Link>
+            )}
             <Link
               href="/"
               target="_blank"
@@ -1142,129 +1108,17 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {/* ================= MODAL DE QR CODE PERMANENTE ================= */}
-      {qrModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#18181B] border border-[#27272A] rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <QrCode size={20} className="text-[#F59E0B]" />
-                <h2 className="text-base font-extrabold uppercase tracking-wide text-[#F59E0B]">
-                  QR Code Oficial do Cardápio
-                </h2>
-              </div>
-              <button
-                type="button"
-                onClick={() => setQrModalOpen(false)}
-                className="text-zinc-400 hover:text-white"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            {/* Aviso Visual de QR Code Permanente */}
-            <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3.5 flex items-start gap-3">
-              <ShieldCheck
-                size={20}
-                className="text-emerald-400 shrink-0 mt-0.5"
-              />
-              <p className="text-xs text-emerald-200 leading-relaxed font-medium">
-                Este QR Code é permanente. O link embutido aponta para o
-                endereço oficial do cardápio. Você pode imprimi-lo com segurança
-                para colocar nas mesas.
-              </p>
-            </div>
-
-            {/* Pré-visualização do QR Code em Alta Resolução */}
-            <div className="flex flex-col items-center justify-center bg-white rounded-2xl p-5 shadow-inner">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={qrCodeImageUrl}
-                alt={`QR Code permanente para ${menuUrl}`}
-                width={260}
-                height={260}
-                className="w-56 h-56 sm:w-64 sm:h-64 object-contain"
-              />
-              <span className="mt-2 text-[11px] font-extrabold uppercase tracking-widest text-zinc-800">
-                Buteco do Papá • Cardápio Digital
-              </span>
-              <span className="mt-1 text-[10px] font-semibold text-zinc-500">
-                PNG 1000×1000px • Correção de Erro Alta (ECC H)
-              </span>
-            </div>
-
-            {/* Link Permanente + Botão de Copiar com 1 Clique */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between gap-2">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">
-                  Link Permanente do Cardápio
-                </label>
-                <span className="text-[10px] font-semibold text-[#F59E0B]">
-                  Universal p/ todas as mesas
-                </span>
-              </div>
-              <p className="text-xs text-zinc-300 font-medium break-all bg-[#0D0D0D]/60 border border-[#27272A] rounded-lg px-3 py-2">
-                Link ativo nas mesas:{" "}
-                <strong className="text-[#F59E0B] font-mono">{menuUrl}</strong>
-              </p>
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  readOnly
-                  value={menuUrl}
-                  className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-2.5 px-3 text-xs text-zinc-200 font-mono select-all focus:outline-none focus:border-[#F59E0B]"
-                />
-                <button
-                  type="button"
-                  onClick={handleCopyMenuUrl}
-                  className={`inline-flex items-center gap-1.5 shrink-0 px-3.5 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider border transition-all ${
-                    copiedLink
-                      ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300"
-                      : "bg-[#0D0D0D] hover:bg-[#27272A] border-[#27272A] text-white"
-                  }`}
-                >
-                  {copiedLink ? (
-                    <>
-                      <Check size={14} /> Copiado!
-                    </>
-                  ) : (
-                    <>
-                      <Copy size={14} /> Copiar Link
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Ações: Download em Alta Resolução (PNG 1000x1000) */}
-            <div className="flex flex-col sm:flex-row items-center justify-end gap-2 pt-3 border-t border-[#27272A]">
-              <button
-                type="button"
-                onClick={() => setQrModalOpen(false)}
-                className="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-bold text-zinc-400 hover:text-white"
-              >
-                Fechar
-              </button>
-              <button
-                type="button"
-                disabled={downloadingQr}
-                onClick={handleDownloadQrCode}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F59E0B] hover:bg-[#d9822b] text-black font-extrabold uppercase text-xs tracking-wider px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-amber-500/15 disabled:opacity-50"
-              >
-                {downloadingQr ? (
-                  <>
-                    <Loader2 size={15} className="animate-spin" /> Baixando PNG...
-                  </>
-                ) : (
-                  <>
-                    <Download size={15} /> Baixar PNG (Alta Resolução)
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Rodapé Técnico Discreto c/ Atalho para o Desenvolvedor */}
+      <footer className="max-w-6xl mx-auto px-4 pt-12 text-center">
+        <Link
+          href="/admin/dev"
+          className="inline-flex items-center gap-1.5 text-[11px] text-zinc-600 hover:text-zinc-400 transition-colors"
+          title="Área Técnica ZyonTech (Gerador de QR Code)"
+        >
+          <Code2 size={12} />
+          <span>ZyonTech • Flávio Félix (Dev Tools)</span>
+        </Link>
+      </footer>
     </main>
   );
 }

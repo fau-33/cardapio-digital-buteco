@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Mail, Loader2, ArrowLeft } from "lucide-react";
+import {
+  Lock,
+  Mail,
+  Loader2,
+  ArrowLeft,
+  AlertTriangle,
+  Code2,
+} from "lucide-react";
 import Link from "next/link";
 import { API_URL, warmUpApi } from "@/lib/api";
 import { validateRealEmail } from "@/lib/emailValidation";
@@ -13,14 +20,32 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [oauthNotice, setOauthNotice] = useState("");
 
   useEffect(() => {
     warmUpApi();
+
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const errorParam = params.get("error");
+
+    if (errorParam === "google_not_configured") {
+      setOauthNotice(
+        "O login com Google ainda não foi configurado nas variáveis do servidor (GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET). Utilize seu e-mail e senha abaixo para acessar o painel."
+      );
+      window.history.replaceState({}, "", "/admin/login");
+    } else if (errorParam === "google_auth_failed") {
+      setError(
+        "Não foi possível concluir a autenticação com o Google. Verifique se seu e-mail possui permissão de administrador ou acesse com e-mail e senha."
+      );
+      window.history.replaceState({}, "", "/admin/login");
+    }
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setOauthNotice("");
 
     const emailCheck = validateRealEmail(email);
     if (!emailCheck.valid) {
@@ -64,6 +89,8 @@ export default function AdminLoginPage() {
   };
 
   const handleGoogleLogin = () => {
+    setError("");
+    setOauthNotice("");
     window.location.assign(`${API_URL}/auth/google`);
   };
 
@@ -84,6 +111,16 @@ export default function AdminLoginPage() {
           </h1>
           <p className="text-sm text-zinc-400 mt-1">Painel Administrativo</p>
         </div>
+
+        {oauthNotice && (
+          <div className="bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs p-3.5 rounded-xl mb-6 flex items-start gap-2.5 leading-relaxed">
+            <AlertTriangle
+              size={16}
+              className="text-[#F59E0B] shrink-0 mt-0.5"
+            />
+            <span>{oauthNotice}</span>
+          </div>
+        )}
 
         {error && (
           <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3 rounded-lg mb-6 text-center">
@@ -192,8 +229,8 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        {/* Link claro para Cadastro */}
-        <div className="mt-6 pt-5 border-t border-[#27272A]/60 text-center">
+        {/* Link claro para Cadastro + Atalho Discreto do Desenvolvedor */}
+        <div className="mt-6 pt-5 border-t border-[#27272A]/60 text-center space-y-3">
           <p className="text-xs text-zinc-400">
             Não tem conta?{" "}
             <Link
@@ -203,6 +240,17 @@ export default function AdminLoginPage() {
               Cadastre-se
             </Link>
           </p>
+
+          <div className="pt-1">
+            <Link
+              href="/admin/dev"
+              className="inline-flex items-center gap-1.5 text-[11px] text-zinc-600 hover:text-zinc-400 transition-colors"
+              title="Acesso exclusivo ZyonTech / Desenvolvedor"
+            >
+              <Code2 size={12} />
+              <span>ZyonTech Dev Tools</span>
+            </Link>
+          </div>
         </div>
       </div>
     </main>
