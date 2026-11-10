@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Category, Product, User } from "@/types";
 import { apiFetch } from "@/lib/api";
+import { getProductImageUrl } from "@/lib/productImage";
 import {
   Plus,
   Pencil,
@@ -63,6 +64,7 @@ export default function AdminDashboardPage() {
   const [prodName, setProdName] = useState("");
   const [prodDescription, setProdDescription] = useState("");
   const [prodPrice, setProdPrice] = useState("");
+  const [prodImageUrl, setProdImageUrl] = useState("");
   const [prodCategoryId, setProdCategoryId] = useState("");
   const [prodIsNovelty, setProdIsNovelty] = useState(false);
   const [prodIsActive, setProdIsActive] = useState(true);
@@ -242,6 +244,7 @@ export default function AdminDashboardPage() {
     setProdName("");
     setProdDescription("");
     setProdPrice("");
+    setProdImageUrl("");
     setProdCategoryId(
       filterCategoryId !== "ALL"
         ? filterCategoryId
@@ -257,6 +260,7 @@ export default function AdminDashboardPage() {
     setProdName(product.name);
     setProdDescription(product.description || "");
     setProdPrice(String(Number(product.price).toFixed(2)));
+    setProdImageUrl(product.imageUrl || "");
     setProdCategoryId(product.categoryId);
     setProdIsNovelty(Boolean(product.isNovelty));
     setProdIsActive(product.isActive !== false);
@@ -276,6 +280,7 @@ export default function AdminDashboardPage() {
       name: prodName.trim(),
       description: prodDescription.trim(),
       price: numericPrice.toFixed(2),
+      imageUrl: prodImageUrl.trim() || null,
       categoryId: prodCategoryId,
       isNovelty: prodIsNovelty,
       isActive: prodIsActive,
@@ -773,9 +778,21 @@ export default function AdminDashboardPage() {
                       </div>
 
                       <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#27272A]">
-                        <span className="text-base font-extrabold text-[#F59E0B] shrink-0">
-                          {formatBRL(product.price)}
-                        </span>
+                        <div className="flex items-center gap-2.5 shrink-0">
+                          <span className="text-base font-extrabold text-[#F59E0B]">
+                            {formatBRL(product.price)}
+                          </span>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={getProductImageUrl(
+                              product,
+                              categoryMap.get(product.categoryId)
+                            )}
+                            alt={product.name}
+                            loading="lazy"
+                            className="w-11 h-11 rounded-lg object-cover shrink-0 border border-amber-500/25 bg-[#0D0D0D]"
+                          />
+                        </div>
 
                         <div className="flex items-center gap-1.5">
                           {/* Alternar Novidade */}
@@ -979,6 +996,19 @@ export default function AdminDashboardPage() {
                   value={prodDescription}
                   onChange={(e) => setProdDescription(e.target.value)}
                   placeholder="Acompanha farofa, vinagrete e mandioca..."
+                  className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-2.5 px-3.5 text-sm text-white focus:outline-none focus:border-[#F59E0B]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
+                  URL da Imagem - Opcional, deixe vazio para usar imagem ilustrativa automática
+                </label>
+                <input
+                  type="url"
+                  value={prodImageUrl}
+                  onChange={(e) => setProdImageUrl(e.target.value)}
+                  placeholder="https://exemplo.com/foto-do-produto.jpg"
                   className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-2.5 px-3.5 text-sm text-white focus:outline-none focus:border-[#F59E0B]"
                 />
               </div>

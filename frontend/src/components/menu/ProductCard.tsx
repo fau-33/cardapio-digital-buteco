@@ -1,16 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import { Product } from "@/types";
+import {
+  getFallbackProductImageUrl,
+  getProductImageUrl,
+} from "@/lib/productImage";
 
 interface ProductCardProps {
   product: Product;
+  categoryName?: string;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, categoryName }: ProductCardProps) {
   const formattedPrice = new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
   }).format(Number(product.price));
+
+  const primaryUrl = getProductImageUrl(product, categoryName);
+  const fallbackUrl = getFallbackProductImageUrl(product.name, categoryName);
+  const [failedUrl, setFailedUrl] = useState<string | null>(null);
+
+  const imageSrc = failedUrl === primaryUrl ? fallbackUrl : primaryUrl;
 
   return (
     <article
@@ -35,10 +47,26 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
       </div>
 
-      <div className="text-right shrink-0">
-        <span className="text-base font-extrabold text-[#F59E0B] tracking-tight">
-          {formattedPrice}
-        </span>
+      <div className="flex items-center gap-3 shrink-0">
+        <div className="text-right">
+          <span className="text-base font-extrabold text-[#F59E0B] tracking-tight">
+            {formattedPrice}
+          </span>
+        </div>
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imageSrc}
+          alt={`Imagem ilustrativa de ${product.name}`}
+          loading="lazy"
+          decoding="async"
+          onError={() => {
+            if (imageSrc !== fallbackUrl) {
+              setFailedUrl(primaryUrl);
+            }
+          }}
+          className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg object-cover shrink-0 border border-amber-500/25 bg-[#0D0D0D] shadow-sm"
+        />
       </div>
     </article>
   );

@@ -44,6 +44,7 @@ export class ProductsController {
       name: string;
       description?: string;
       price: string;
+      imageUrl?: string | null;
       categoryId: string;
       isNovelty?: boolean;
       isActive?: boolean;
@@ -62,6 +63,7 @@ export class ProductsController {
       name?: string;
       description?: string;
       price?: string;
+      imageUrl?: string | null;
       categoryId?: string;
       isNovelty?: boolean;
       isActive?: boolean;
@@ -80,6 +82,7 @@ export class ProductsController {
       name?: string;
       description?: string;
       price?: string;
+      imageUrl?: string | null;
       categoryId?: string;
       isNovelty?: boolean;
       isActive?: boolean;

@@ -64,7 +64,11 @@ export default function HomePage() {
 
                   <div className="grid gap-3">
                     {(selectedCategory.products ?? []).map((product) => (
-                      <ProductCard key={product.id} product={product} />
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        categoryName={selectedCategory.name}
+                      />
                     ))}
                   </div>
                 </div>

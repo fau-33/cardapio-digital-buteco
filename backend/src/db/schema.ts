@@ -25,6 +25,7 @@ export const products = pgTable('products', {
   name: text('name').notNull(),
   description: text('description'),
   price: decimal('price', { precision: 10, scale: 2 }).notNull(),
+  imageUrl: text('image_url'),
   isNovelty: boolean('is_novelty').default(false).notNull(),
   isActive: boolean('is_active').default(true).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),

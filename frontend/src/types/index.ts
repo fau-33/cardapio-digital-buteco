@@ -4,6 +4,7 @@ export interface Product {
   name: string;
   description?: string | null;
   price: string | number;
+  imageUrl?: string | null;
   isNovelty?: boolean;
   isActive?: boolean;
   createdAt?: string;

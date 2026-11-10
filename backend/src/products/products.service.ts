@@ -9,6 +9,7 @@ export type UpdateProductInput = {
   name?: string;
   description?: string;
   price?: string;
+  imageUrl?: string | null;
   categoryId?: string;
   isNovelty?: boolean;
   isActive?: boolean;
@@ -56,6 +57,7 @@ export class ProductsService {
     name: string;
     description?: string;
     price: string;
+    imageUrl?: string | null;
     categoryId: string;
     isNovelty?: boolean;
     isActive?: boolean;
@@ -67,6 +69,7 @@ export class ProductsService {
         name: data.name,
         description: data.description || '',
         price: data.price,
+        imageUrl: data.imageUrl?.trim() || null,
         categoryId: data.categoryId,
         isNovelty: data.isNovelty ?? false,
         isActive: data.isActive ?? true,
@@ -78,9 +81,16 @@ export class ProductsService {
 
   // Atualizar um produto pelo ID (ex: mudar preço, nome, novidade ou disponibilidade)
   async update(id: string, data: UpdateProductInput) {
+    const normalizedData: UpdateProductInput = {
+      ...data,
+      ...(data.imageUrl !== undefined && {
+        imageUrl: data.imageUrl?.trim() || null,
+      }),
+    };
+
     const [updatedProduct] = await this.db
       .update(schema.products)
-      .set(data)
+      .set(normalizedData)
       .where(eq(schema.products.id, id))
       .returning();
 

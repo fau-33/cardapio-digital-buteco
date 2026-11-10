@@ -9,8 +9,11 @@ export function ProductSkeleton() {
         {/* Descrição */}
         <div className="h-3 bg-[#27272A]/60 rounded w-3/4"></div>
       </div>
-      {/* Preço */}
-      <div className="h-5 bg-[#27272A] rounded w-16 shrink-0"></div>
+      {/* Preço + Thumbnail */}
+      <div className="flex items-center gap-3 shrink-0">
+        <div className="h-5 bg-[#27272A] rounded w-16"></div>
+        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#27272A] rounded-lg"></div>
+      </div>
     </div>
   );
 }
