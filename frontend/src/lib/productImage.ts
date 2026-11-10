@@ -53,9 +53,23 @@ export function getFallbackProductImageUrl(
   productName: string,
   categoryName?: string | null
 ): string {
-  const name = normalizeText(productName);
+  const name = normalizeText(productName).trim();
   const category = normalizeText(categoryName);
   const combined = `${name} ${category}`;
+
+  // Imagens reais locais dos pratos oficiais do Buteco do Papá
+  if (name === "arrumadinho" || name.startsWith("arrumadinho")) {
+    return "/images/petiscos/arrumadinho.jpg";
+  }
+  if (name === "batata fritas (500g)" || name.startsWith("batata frita")) {
+    return "/images/petiscos/batatas-fritas.jpg";
+  }
+  if (name === "bolinho de feijoada" || name.startsWith("bolinho de feijoada")) {
+    return "/images/petiscos/bolinho-feijoada.jpg";
+  }
+  if (name === "calabresa c/ farofa e salada") {
+    return "/images/petiscos/calabresa-farofa-salada.jpg";
+  }
 
   // 1. Caldos e Sopas
   if (

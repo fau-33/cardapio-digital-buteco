@@ -1,8 +1,13 @@
 import { Category, Product } from "@/types";
 
-const MENU_CACHE_KEY = "buteco_papa_menu_cache_v1";
+const MENU_CACHE_KEY = "buteco_papa_menu_cache_v2";
 
-type RawSeedItem = [name: string, price: number, isNovelty?: boolean];
+type RawSeedItem = [
+  name: string,
+  price: number,
+  isNovelty?: boolean,
+  imageUrl?: string,
+];
 
 function buildCategory(
   id: string,
@@ -11,12 +16,13 @@ function buildCategory(
   items: RawSeedItem[]
 ): Category {
   const products: Product[] = items
-    .map(([prodName, price, isNovelty], idx) => ({
+    .map(([prodName, price, isNovelty, imageUrl], idx) => ({
       id: `${id}-prod-${idx + 1}`,
       categoryId: id,
       name: prodName,
       description: "",
       price: price.toFixed(2),
+      imageUrl,
       isNovelty: Boolean(isNovelty),
       isActive: true,
     }))
@@ -36,10 +42,15 @@ function buildCategory(
  */
 export const INITIAL_MENU_CATEGORIES: Category[] = [
   buildCategory("cat-petiscos", "Petiscos", 1, [
-    ["Arrumadinho", 45.0],
-    ["Batata Fritas (500g)", 25.0],
-    ["Bolinho de Feijoada", 35.0],
-    ["Calabresa c/ Farofa e Salada", 35.0],
+    ["Arrumadinho", 45.0, false, "/images/petiscos/arrumadinho.jpg"],
+    ["Batata Fritas (500g)", 25.0, false, "/images/petiscos/batatas-fritas.jpg"],
+    ["Bolinho de Feijoada", 35.0, false, "/images/petiscos/bolinho-feijoada.jpg"],
+    [
+      "Calabresa c/ Farofa e Salada",
+      35.0,
+      false,
+      "/images/petiscos/calabresa-farofa-salada.jpg",
+    ],
     ["Calabresa c/ Fritas", 38.0],
     ["Camarão Alho e Óleo", 40.0],
     ["Carne do Sol c/ Farofa e Salada", 40.0],

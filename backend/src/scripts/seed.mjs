@@ -28,6 +28,7 @@ const products = pgTable('products', {
   name: text('name').notNull(),
   description: text('description'),
   price: decimal('price', { precision: 10, scale: 2 }).notNull(),
+  imageUrl: text('image_url'),
   isNovelty: boolean('is_novelty').default(false).notNull(),
   isActive: boolean('is_active').default(true).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -56,12 +57,13 @@ const uid  = () => crypto.randomUUID();
 const catId = (slug) => `cat-${slug}`;
 
 // Cria produto já formatado para insert
-const prod = (categoryId, name, price, isNovelty = false) => ({
+const prod = (categoryId, name, price, isNovelty = false, imageUrl = null) => ({
   id: uid(),
   categoryId,
   name,
   description: '',
   price: String(price.toFixed(2)),
+  imageUrl,
   isNovelty,
   isActive: true,
 });
@@ -74,10 +76,10 @@ const MENU = [
   {
     id: catId('petiscos'), name: 'Petiscos', order: '1',
     products: [
-      ['Arrumadinho',                              45.00],
-      ['Batata Fritas (500g)',                     25.00],
-      ['Bolinho de Feijoada',                      35.00],
-      ['Calabresa c/ Farofa e Salada',             35.00],
+      ['Arrumadinho',                              45.00, false, '/images/petiscos/arrumadinho.jpg'],
+      ['Batata Fritas (500g)',                     25.00, false, '/images/petiscos/batatas-fritas.jpg'],
+      ['Bolinho de Feijoada',                      35.00, false, '/images/petiscos/bolinho-feijoada.jpg'],
+      ['Calabresa c/ Farofa e Salada',             35.00, false, '/images/petiscos/calabresa-farofa-salada.jpg'],
       ['Calabresa c/ Fritas',                      38.00],
       ['Camarão Alho e Óleo',                      40.00],
       ['Carne do Sol c/ Farofa e Salada',          40.00],
@@ -264,8 +266,8 @@ async function seed() {
     });
 
     // Monta e insere produtos em lote
-    const rows = cat.products.map(([name, price, isNovelty]) =>
-      prod(cat.id, name, price, isNovelty ?? false)
+    const rows = cat.products.map(([name, price, isNovelty, imageUrl]) =>
+      prod(cat.id, name, price, isNovelty ?? false, imageUrl ?? null)
     );
     await db.insert(products).values(rows);
     totalProducts += rows.length;

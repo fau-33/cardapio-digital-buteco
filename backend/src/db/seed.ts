@@ -20,6 +20,7 @@ type SeedProduct = {
   name: string;
   price: number;
   isNovelty?: boolean;
+  imageUrl?: string;
 };
 
 type SeedCategory = {
@@ -33,10 +34,26 @@ const menu: SeedCategory[] = [
     name: 'Petiscos',
     order: 1,
     products: [
-      { name: 'Arrumadinho', price: 45.0 },
-      { name: 'Batata Fritas (500g)', price: 25.0 },
-      { name: 'Bolinho de Feijoada', price: 35.0 },
-      { name: 'Calabresa c/ Farofa e Salada', price: 35.0 },
+      {
+        name: 'Arrumadinho',
+        price: 45.0,
+        imageUrl: '/images/petiscos/arrumadinho.jpg',
+      },
+      {
+        name: 'Batata Fritas (500g)',
+        price: 25.0,
+        imageUrl: '/images/petiscos/batatas-fritas.jpg',
+      },
+      {
+        name: 'Bolinho de Feijoada',
+        price: 35.0,
+        imageUrl: '/images/petiscos/bolinho-feijoada.jpg',
+      },
+      {
+        name: 'Calabresa c/ Farofa e Salada',
+        price: 35.0,
+        imageUrl: '/images/petiscos/calabresa-farofa-salada.jpg',
+      },
       { name: 'Calabresa c/ Fritas', price: 38.0 },
       { name: 'Camarão Alho e Óleo', price: 40.0 },
       { name: 'Carne do Sol c/ Farofa e Salada', price: 40.0 },
@@ -217,6 +234,7 @@ async function main() {
         categoryId,
         name: product.name,
         price: product.price.toFixed(2),
+        imageUrl: product.imageUrl ?? null,
         isNovelty: product.isNovelty ?? false,
         isActive: true,
       })),
