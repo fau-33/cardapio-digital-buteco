@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Lock, Mail, User, Loader2, ArrowLeft, KeyRound } from "lucide-react";
 import Link from "next/link";
 import { API_URL, warmUpApi } from "@/lib/api";
+import { validateRealEmail } from "@/lib/emailValidation";
 
 export default function AdminRegisterPage() {
   const router = useRouter();
@@ -25,10 +26,18 @@ export default function AdminRegisterPage() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
+    const emailCheck = validateRealEmail(email);
+    if (!emailCheck.valid) {
+      setError(emailCheck.error!);
+      return;
+    }
+
+    setLoading(true);
+
     try {
+      const normalizedEmail = emailCheck.normalizedEmail;
       const secretTrimmed = registrationSecret.trim();
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
@@ -42,7 +51,7 @@ export default function AdminRegisterPage() {
         headers,
         body: JSON.stringify({
           name: name.trim(),
-          email: email.trim(),
+          email: normalizedEmail,
           password,
           ...(secretTrimmed ? { registrationSecret: secretTrimmed } : {}),
         }),
@@ -66,7 +75,7 @@ export default function AdminRegisterPage() {
             data.admin || {
               id: data.id,
               name: data.name || name.trim(),
-              email: data.email || email.trim(),
+              email: data.email || normalizedEmail,
             }
           )
         );
@@ -78,7 +87,7 @@ export default function AdminRegisterPage() {
       const loginResponse = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({ email: normalizedEmail, password }),
       });
 
       const loginData = await loginResponse.json();
@@ -194,7 +203,7 @@ export default function AdminRegisterPage() {
                 required
                 autoComplete="email"
                 className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-[#F59E0B] transition-colors"
-                placeholder="admin@buteco.com"
+                placeholder="seuemail@gmail.com"
               />
             </div>
           </div>

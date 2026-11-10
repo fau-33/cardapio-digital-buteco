@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Lock, Mail, Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { API_URL, warmUpApi } from "@/lib/api";
+import { validateRealEmail } from "@/lib/emailValidation";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -19,14 +20,24 @@ export default function AdminLoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
+
+    const emailCheck = validateRealEmail(email);
+    if (!emailCheck.valid) {
+      setError(emailCheck.error!);
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          email: emailCheck.normalizedEmail,
+          password,
+        }),
       });
 
       const data = await response.json();
@@ -130,7 +141,7 @@ export default function AdminLoginPage() {
                 required
                 autoComplete="email"
                 className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-[#F59E0B] transition-colors"
-                placeholder="admin@buteco.com"
+                placeholder="seuemail@gmail.com"
               />
             </div>
           </div>

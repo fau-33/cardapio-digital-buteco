@@ -11,6 +11,7 @@ import { DRIZZLE } from '../database/database.provider.js';
 import { NeonHttpDatabase } from 'drizzle-orm/neon-http';
 import * as schema from '../db/schema.js';
 import * as crypto from 'crypto';
+import * as dns from 'dns';
 import * as bcrypt from 'bcrypt';
 import { eq } from 'drizzle-orm';
 import { formatToBrazilTime } from '../common/utils/date.helper.js';
@@ -18,6 +19,35 @@ import { JwtService } from '@nestjs/jwt';
 
 const FORGOT_PASSWORD_MESSAGE =
   'Se o e-mail existir, as instruções de recuperação foram enviadas.';
+
+const STRICT_EMAIL_REGEX =
+  /^[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\.)+[a-zA-Z]{2,24}$/;
+
+const BLOCKED_EMAIL_DOMAINS = new Set([
+  'teste.com',
+  'teste.com.br',
+  'test.com',
+  'test.org',
+  'test.net',
+  'example.com',
+  'example.org',
+  'example.net',
+  'admin.com',
+  'buteco.com',
+  'localhost',
+  'tempmail.com',
+  'temp-mail.org',
+  'mailinator.com',
+  '10minutemail.com',
+  'yopmail.com',
+  'guerrillamail.com',
+  'sharklasers.com',
+  'trashmail.com',
+  'maildrop.cc',
+  'fakeinbox.com',
+  'dispostable.com',
+  'getnada.com',
+]);
 
 @Injectable()
 export class AuthService {
@@ -57,8 +87,65 @@ export class AuthService {
     }
   }
 
-  // Registar um novo Administrador com Validação de Senha
+  // Valida formato estrito do e-mail, bloqueia domínios falsos/descartáveis
+  // e verifica via DNS se o domínio possui servidores de e-mail (MX) reais.
+  private async assertRealEmailWithMx(rawEmail: string): Promise<string> {
+    const normalizedEmail = (rawEmail ?? '').trim().toLowerCase();
+
+    if (!normalizedEmail || !STRICT_EMAIL_REGEX.test(normalizedEmail)) {
+      throw new BadRequestException(
+        'Por favor, utilize um endereço de e-mail real e válido (ex: Gmail, Outlook, iCloud ou corporativo).',
+      );
+    }
+
+    const [localPart, domain] = normalizedEmail.split('@');
+
+    if (
+      !localPart ||
+      localPart.length < 2 ||
+      !domain ||
+      BLOCKED_EMAIL_DOMAINS.has(domain) ||
+      domain.endsWith('.test') ||
+      domain.endsWith('.example') ||
+      domain.endsWith('.invalid') ||
+      domain.endsWith('.localhost')
+    ) {
+      throw new BadRequestException(
+        'Domínio de e-mail inválido ou inexistente. Utilize um e-mail real.',
+      );
+    }
+
+    try {
+      const mxRecords = await dns.promises.resolveMx(domain);
+      const hasValidMx =
+        Array.isArray(mxRecords) &&
+        mxRecords.length > 0 &&
+        mxRecords.some(
+          (record) =>
+            Boolean(record?.exchange) &&
+            record.exchange.trim().length > 0 &&
+            record.exchange.trim() !== '.',
+        );
+
+      if (!hasValidMx) {
+        throw new BadRequestException(
+          'Domínio de e-mail inválido ou inexistente. Utilize um e-mail real.',
+        );
+      }
+    } catch {
+      throw new BadRequestException(
+        'Domínio de e-mail inválido ou inexistente. Utilize um e-mail real.',
+      );
+    }
+
+    return normalizedEmail;
+  }
+
+  // Registar um novo Administrador com Validação de E-mail Real (DNS MX) e Senha
   async register(data: { name: string; email: string; password: string }) {
+    // 0. Validar se o e-mail é real e possui domínio com MX válido
+    const normalizedEmail = await this.assertRealEmailWithMx(data.email);
+
     // 1. Validar requisitos de senha forte (mínimo 6 caracteres, 1 maiúscula, 1 minúscula)
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     if (!passwordRegex.test(data.password)) {
@@ -71,7 +158,7 @@ export class AuthService {
     const existingUser = await this.db
       .select()
       .from(schema.users)
-      .where(eq(schema.users.email, data.email));
+      .where(eq(schema.users.email, normalizedEmail));
 
     if (existingUser.length > 0) {
       throw new BadRequestException('E-mail já cadastrado no sistema.');
@@ -85,8 +172,8 @@ export class AuthService {
       .insert(schema.users)
       .values({
         id: crypto.randomUUID(),
-        name: data.name,
-        email: data.email,
+        name: data.name.trim(),
+        email: normalizedEmail,
         password: hashedPassword,
       })
       .returning({
@@ -113,11 +200,13 @@ export class AuthService {
 
   // Autenticar / Login do Administrador
   async login(data: { email: string; password: string }) {
+    const normalizedEmail = (data.email ?? '').trim().toLowerCase();
+
     // 1. Buscar o usuário pelo e-mail
     const [user] = await this.db
       .select()
       .from(schema.users)
-      .where(eq(schema.users.email, data.email));
+      .where(eq(schema.users.email, normalizedEmail));
 
     if (!user) {
       throw new UnauthorizedException('E-mail ou senha inválidos.');
