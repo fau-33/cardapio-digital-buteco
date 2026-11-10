@@ -70,6 +70,35 @@ export function getFallbackProductImageUrl(
   if (name === "calabresa c/ farofa e salada") {
     return "/images/petiscos/calabresa-farofa-salada.jpg";
   }
+  if (name === "file de tilapia c/ farofa e salada") {
+    return "/images/petiscos/tilapia-farofa-salada.jpg";
+  }
+  if (name === "file de tilapia c/ fritas") {
+    return "/images/petiscos/tilapia-fritas.jpg";
+  }
+  if (name === "frango a passarinha c/ farofa e salada") {
+    return "/images/petiscos/frango-passarinha-farofa.jpg";
+  }
+  if (name === "frango a passarinha c/ fritas") {
+    return "/images/petiscos/frango-passarinha-fritas.jpg";
+  }
+  if (name === "moela c/ pao") {
+    return "/images/petiscos/moela-pao.jpg";
+  }
+  if (name.startsWith("ovos de codorna")) {
+    return "/images/petiscos/ovos-codorna.jpg";
+  }
+  if (
+    name === "pitttinga c/ farofa e salada" ||
+    name === "pititinga c/ farofa e salada" ||
+    name.startsWith("pititinga") ||
+    name.startsWith("pitttinga")
+  ) {
+    return "/images/petiscos/pititinga-farofa-salada.jpg";
+  }
+  if (name === "siri catado" || name.startsWith("siri catado")) {
+    return "/images/petiscos/siri-catado.jpg";
+  }
 
   // 1. Caldos e Sopas
   if (

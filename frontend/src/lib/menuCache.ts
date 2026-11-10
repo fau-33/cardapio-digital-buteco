@@ -1,6 +1,6 @@
 import { Category, Product } from "@/types";
 
-const MENU_CACHE_KEY = "buteco_papa_menu_cache_v2";
+const MENU_CACHE_KEY = "buteco_papa_menu_cache_v3";
 
 type RawSeedItem = [
   name: string,
@@ -62,14 +62,44 @@ export const INITIAL_MENU_CATEGORIES: Category[] = [
     ["Coxinha da Asa c/ Fritas", 40.0],
     ["Cupim c/ Aipim", 50.0],
     ["Escondidinho", 50.0],
-    ["Filé de Tilápia c/ Farofa e Salada", 40.0],
-    ["Filé de Tilápia c/ Fritas", 45.0],
-    ["Frango à Passarinha c/ Farofa e Salada", 38.0],
-    ["Frango à Passarinha c/ Fritas", 40.0],
-    ["Moela c/ Pão", 25.0],
-    ["Ovos de Codorna (dúzia)", 12.0],
-    ["Pitttinga c/ Farofa e Salada", 38.0],
-    ["Siri Catado", 50.0, true],
+    [
+      "Filé de Tilápia c/ Farofa e Salada",
+      40.0,
+      false,
+      "/images/petiscos/tilapia-farofa-salada.jpg",
+    ],
+    [
+      "Filé de Tilápia c/ Fritas",
+      45.0,
+      false,
+      "/images/petiscos/tilapia-fritas.jpg",
+    ],
+    [
+      "Frango à Passarinha c/ Farofa e Salada",
+      38.0,
+      false,
+      "/images/petiscos/frango-passarinha-farofa.jpg",
+    ],
+    [
+      "Frango à Passarinha c/ Fritas",
+      40.0,
+      false,
+      "/images/petiscos/frango-passarinha-fritas.jpg",
+    ],
+    ["Moela c/ Pão", 25.0, false, "/images/petiscos/moela-pao.jpg"],
+    [
+      "Ovos de Codorna (dúzia)",
+      12.0,
+      false,
+      "/images/petiscos/ovos-codorna.jpg",
+    ],
+    [
+      "Pitttinga c/ Farofa e Salada",
+      38.0,
+      false,
+      "/images/petiscos/pititinga-farofa-salada.jpg",
+    ],
+    ["Siri Catado", 50.0, true, "/images/petiscos/siri-catado.jpg"],
   ]),
   buildCategory("cat-caldos", "Caldos", 2, [
     ["Caldo de Camarão", 18.0],

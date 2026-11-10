@@ -91,14 +91,14 @@ const MENU = [
       ['Coxinha da Asa c/ Fritas',                 40.00],
       ['Cupim c/ Aipim',                           50.00],
       ['Escondidinho',                             50.00],
-      ['Filé de Tilápia c/ Farofa e Salada',       40.00],
-      ['Filé de Tilápia c/ Fritas',                45.00],
-      ['Frango à Passarinha c/ Farofa e Salada',   38.00],
-      ['Frango à Passarinha c/ Fritas',            40.00],
-      ['Moela c/ Pão',                             25.00],
-      ['Ovos de Codorna (dúzia)',                  12.00],
-      ['Pitttinga c/ Farofa e Salada',             38.00],
-      ['Siri Catado',                              50.00, true], // NOVIDADE
+      ['Filé de Tilápia c/ Farofa e Salada',       40.00, false, '/images/petiscos/tilapia-farofa-salada.jpg'],
+      ['Filé de Tilápia c/ Fritas',                45.00, false, '/images/petiscos/tilapia-fritas.jpg'],
+      ['Frango à Passarinha c/ Farofa e Salada',   38.00, false, '/images/petiscos/frango-passarinha-farofa.jpg'],
+      ['Frango à Passarinha c/ Fritas',            40.00, false, '/images/petiscos/frango-passarinha-fritas.jpg'],
+      ['Moela c/ Pão',                             25.00, false, '/images/petiscos/moela-pao.jpg'],
+      ['Ovos de Codorna (dúzia)',                  12.00, false, '/images/petiscos/ovos-codorna.jpg'],
+      ['Pitttinga c/ Farofa e Salada',             38.00, false, '/images/petiscos/pititinga-farofa-salada.jpg'],
+      ['Siri Catado',                              50.00, true,  '/images/petiscos/siri-catado.jpg'], // NOVIDADE
     ],
   },
 
