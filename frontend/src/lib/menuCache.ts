@@ -1,6 +1,6 @@
 import { Category, Product } from "@/types";
 
-const MENU_CACHE_KEY = "buteco_papa_menu_cache_v3";
+const MENU_CACHE_KEY = "buteco_papa_menu_cache_v4";
 
 type RawSeedItem = [
   name: string,
@@ -51,17 +51,42 @@ export const INITIAL_MENU_CATEGORIES: Category[] = [
       false,
       "/images/petiscos/calabresa-farofa-salada.jpg",
     ],
-    ["Calabresa c/ Fritas", 38.0],
-    ["Camarão Alho e Óleo", 40.0],
-    ["Carne do Sol c/ Farofa e Salada", 40.0],
-    ["Carne do Sol c/ Fritas", 45.0],
-    ["Charque c/ Farofa e Salada", 40.0],
-    ["Charque c/ Feijão Verde e Farofa d'Água", 50.0],
-    ["Charque c/ Fritas", 45.0],
-    ["Coxinha da Asa c/ Farofa e Salada", 38.0],
-    ["Coxinha da Asa c/ Fritas", 40.0],
-    ["Cupim c/ Aipim", 50.0],
-    ["Escondidinho", 50.0],
+    ["Calabresa c/ Fritas", 38.0, false, "/images/petiscos/calabresa-fritas.jpg"],
+    ["Camarão Alho e Óleo", 40.0, false, "/images/petiscos/camarao-alho-oleo.jpg"],
+    [
+      "Carne do Sol c/ Farofa e Salada",
+      40.0,
+      false,
+      "/images/petiscos/carne-sol-farofa-salada.jpg",
+    ],
+    ["Carne do Sol c/ Fritas", 45.0, false, "/images/petiscos/carne-sol-fritas.jpg"],
+    [
+      "Charque c/ Farofa e Salada",
+      40.0,
+      false,
+      "/images/petiscos/charque-farofa-salada.jpg",
+    ],
+    [
+      "Charque c/ Feijão Verde e Farofa d'Água",
+      50.0,
+      false,
+      "/images/petiscos/charque-feijao-farofa.jpg",
+    ],
+    ["Charque c/ Fritas", 45.0, false, "/images/petiscos/charque-fritas.jpg"],
+    [
+      "Coxinha da Asa c/ Farofa e Salada",
+      38.0,
+      false,
+      "/images/petiscos/coxinha-asa-farofa-salada.jpg",
+    ],
+    [
+      "Coxinha da Asa c/ Fritas",
+      40.0,
+      false,
+      "/images/petiscos/coxinha-asa-fritas.jpg",
+    ],
+    ["Cupim c/ Aipim", 50.0, false, "/images/petiscos/cupim-aipim.jpg"],
+    ["Escondidinho", 50.0, false, "/images/petiscos/escondidinho.jpg"],
     [
       "Filé de Tilápia c/ Farofa e Salada",
       40.0,

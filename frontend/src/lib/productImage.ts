@@ -70,6 +70,43 @@ export function getFallbackProductImageUrl(
   if (name === "calabresa c/ farofa e salada") {
     return "/images/petiscos/calabresa-farofa-salada.jpg";
   }
+  if (name === "calabresa c/ fritas") {
+    return "/images/petiscos/calabresa-fritas.jpg";
+  }
+  if (name === "camarao alho e oleo" || name.startsWith("camarao alho")) {
+    return "/images/petiscos/camarao-alho-oleo.jpg";
+  }
+  if (name === "carne do sol c/ farofa e salada") {
+    return "/images/petiscos/carne-sol-farofa-salada.jpg";
+  }
+  if (name === "carne do sol c/ fritas") {
+    return "/images/petiscos/carne-sol-fritas.jpg";
+  }
+  if (name === "charque c/ farofa e salada") {
+    return "/images/petiscos/charque-farofa-salada.jpg";
+  }
+  if (
+    name === "charque c/ feijao verde e farofa d'agua" ||
+    name === "charque c/ feijao verde e farofa d’agua" ||
+    name.startsWith("charque c/ feijao verde")
+  ) {
+    return "/images/petiscos/charque-feijao-farofa.jpg";
+  }
+  if (name === "charque c/ fritas") {
+    return "/images/petiscos/charque-fritas.jpg";
+  }
+  if (name === "coxinha da asa c/ farofa e salada") {
+    return "/images/petiscos/coxinha-asa-farofa-salada.jpg";
+  }
+  if (name === "coxinha da asa c/ fritas") {
+    return "/images/petiscos/coxinha-asa-fritas.jpg";
+  }
+  if (name === "cupim c/ aipim" || name.startsWith("cupim c/ aipim")) {
+    return "/images/petiscos/cupim-aipim.jpg";
+  }
+  if (name === "escondidinho" || name.startsWith("escondidinho")) {
+    return "/images/petiscos/escondidinho.jpg";
+  }
   if (name === "file de tilapia c/ farofa e salada") {
     return "/images/petiscos/tilapia-farofa-salada.jpg";
   }
