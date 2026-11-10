@@ -157,6 +157,57 @@ export function getFallbackProductImageUrl(
     return "/images/caldos/caldo-verde.jpg";
   }
 
+  // Imagens reais locais das Refeições oficiais do Buteco do Papá
+  if (name === "dobradinha (1 pessoa)" || name.startsWith("dobradinha (1")) {
+    return "/images/refeicoes/dobradinha-1.jpg";
+  }
+  if (name === "dobradinha (2 pessoas)" || name.startsWith("dobradinha (2")) {
+    return "/images/refeicoes/dobradinha-2.jpg";
+  }
+  if (name === "feijao verde (1 pessoa)" || name.startsWith("feijao verde (1")) {
+    return "/images/refeicoes/feijao-verde-1.jpg";
+  }
+  if (name === "feijao verde (2 pessoas)" || name.startsWith("feijao verde (2")) {
+    return "/images/refeicoes/feijao-verde-2.jpg";
+  }
+  if (name === "feijoada (1 pessoa)" || name.startsWith("feijoada (1")) {
+    return "/images/refeicoes/feijoada-1.jpg";
+  }
+  if (name === "feijoada (2 pessoas)" || name.startsWith("feijoada (2")) {
+    return "/images/refeicoes/feijoada-2.jpg";
+  }
+  if (name === "manicoba" || name.startsWith("manicoba")) {
+    return "/images/refeicoes/manicoba.jpg";
+  }
+  if (name === "mocofato (1 pessoa)" || name.startsWith("mocofato (1")) {
+    return "/images/refeicoes/mocofato-1.jpg";
+  }
+  if (name === "mocofato (2 pessoas)" || name.startsWith("mocofato (2")) {
+    return "/images/refeicoes/mocofato-2.jpg";
+  }
+  if (name === "sarapatel (1 pessoa)" || name.startsWith("sarapatel (1")) {
+    return "/images/refeicoes/sarapatel-1.jpg";
+  }
+  if (name === "sarapatel (2 pessoas)" || name.startsWith("sarapatel (2")) {
+    return "/images/refeicoes/sarapatel-2.jpg";
+  }
+  if (
+    name === "xixim de bofe (1 pessoa)" ||
+    name === "xinxim de bofe (1 pessoa)" ||
+    name.startsWith("xixim de bofe (1") ||
+    name.startsWith("xinxim de bofe (1")
+  ) {
+    return "/images/refeicoes/xinxim-bofe-1.jpg";
+  }
+  if (
+    name === "xixim de bofe (2 pessoas)" ||
+    name === "xinxim de bofe (2 pessoas)" ||
+    name.startsWith("xixim de bofe (2") ||
+    name.startsWith("xinxim de bofe (2")
+  ) {
+    return "/images/refeicoes/xinxim-bofe-2.jpg";
+  }
+
   // 1. Caldos e Sopas
   if (
     hasAnyKeyword(name, ["caldo", "mocoto", "sururu", "quenga", "sopa"]) ||

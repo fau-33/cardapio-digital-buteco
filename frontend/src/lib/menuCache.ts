@@ -1,6 +1,6 @@
 import { Category, Product } from "@/types";
 
-const MENU_CACHE_KEY = "buteco_papa_menu_cache_v5";
+const MENU_CACHE_KEY = "buteco_papa_menu_cache_v6";
 
 type RawSeedItem = [
   name: string,
@@ -135,19 +135,19 @@ export const INITIAL_MENU_CATEGORIES: Category[] = [
     ["Caldo Verde", 18.0, false, "/images/caldos/caldo-verde.jpg"],
   ]),
   buildCategory("cat-refeicoes", "Refeições", 3, [
-    ["Dobradinha (1 pessoa)", 35.0],
-    ["Dobradinha (2 pessoas)", 60.0],
-    ["Feijão Verde (1 pessoa)", 35.0],
-    ["Feijão Verde (2 pessoas)", 60.0],
-    ["Feijoada (1 pessoa)", 40.0],
-    ["Feijoada (2 pessoas)", 70.0],
-    ["Maniçoba", 70.0],
-    ["Mocofato (1 pessoa)", 35.0],
-    ["Mocofato (2 pessoas)", 60.0],
-    ["Sarapatel (1 pessoa)", 30.0],
-    ["Sarapatel (2 pessoas)", 55.0],
-    ["Xixim de Bofe (1 pessoa)", 30.0],
-    ["Xixim de Bofe (2 pessoas)", 50.0],
+    ["Dobradinha (1 pessoa)", 35.0, false, "/images/refeicoes/dobradinha-1.jpg"],
+    ["Dobradinha (2 pessoas)", 60.0, false, "/images/refeicoes/dobradinha-2.jpg"],
+    ["Feijão Verde (1 pessoa)", 35.0, false, "/images/refeicoes/feijao-verde-1.jpg"],
+    ["Feijão Verde (2 pessoas)", 60.0, false, "/images/refeicoes/feijao-verde-2.jpg"],
+    ["Feijoada (1 pessoa)", 40.0, false, "/images/refeicoes/feijoada-1.jpg"],
+    ["Feijoada (2 pessoas)", 70.0, false, "/images/refeicoes/feijoada-2.jpg"],
+    ["Maniçoba", 70.0, false, "/images/refeicoes/manicoba.jpg"],
+    ["Mocofato (1 pessoa)", 35.0, false, "/images/refeicoes/mocofato-1.jpg"],
+    ["Mocofato (2 pessoas)", 60.0, false, "/images/refeicoes/mocofato-2.jpg"],
+    ["Sarapatel (1 pessoa)", 30.0, false, "/images/refeicoes/sarapatel-1.jpg"],
+    ["Sarapatel (2 pessoas)", 55.0, false, "/images/refeicoes/sarapatel-2.jpg"],
+    ["Xixim de Bofe (1 pessoa)", 30.0, false, "/images/refeicoes/xinxim-bofe-1.jpg"],
+    ["Xixim de Bofe (2 pessoas)", 50.0, false, "/images/refeicoes/xinxim-bofe-2.jpg"],
   ]),
   buildCategory("cat-cerveja", "Cerveja", 4, [
     ["Amstel (600ml)", 12.0],
