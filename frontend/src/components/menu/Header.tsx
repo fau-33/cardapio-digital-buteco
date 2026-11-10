@@ -4,12 +4,15 @@ export function Header() {
       {/* Brilho / Glow Radial Âmbar ao fundo */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-amber-600/20 blur-3xl pointer-events-none rounded-full" />
 
-      {/* Selo / Emblema Redondo BP */}
-      <div className="relative z-10 w-16 h-16 rounded-full border-2 border-dashed border-[#F59E0B] flex items-center justify-center bg-[#18181B] mb-3 shadow-lg">
-        <span className="text-amber-500 font-extrabold text-xl tracking-wider">
-          BP
-        </span>
-      </div>
+      {/* Logomarca Oficial do Buteco do Papá */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo-buteco.png"
+        alt="Logo Buteco do Papá"
+        width={64}
+        height={64}
+        className="relative z-10 w-16 h-16 rounded-full object-contain mb-3 shadow-lg"
+      />
 
       {/* Subtítulo de Topo */}
       <span className="relative z-10 text-xs tracking-[0.25em] text-amber-500 font-semibold uppercase mb-1">

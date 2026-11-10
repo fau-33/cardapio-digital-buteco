@@ -186,11 +186,14 @@ export default function ForgotPasswordPage() {
         </Link>
 
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-full border-2 border-dashed border-[#F59E0B] flex items-center justify-center bg-[#0D0D0D] mx-auto mb-4 shadow-lg">
-            <span className="text-amber-500 font-extrabold text-xl tracking-wider">
-              BP
-            </span>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo-buteco.png"
+            alt="Logo Buteco do Papá"
+            width={40}
+            height={40}
+            className="w-10 h-10 rounded-full object-contain mx-auto mb-3 shadow-md"
+          />
           <h1 className="text-2xl font-black text-[#F59E0B] tracking-wide uppercase">
             Buteco do Papá
           </h1>
@@ -279,7 +282,7 @@ export default function ForgotPasswordPage() {
                   required
                   autoComplete="email"
                   className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-[#F59E0B] transition-colors placeholder:text-zinc-600"
-                  placeholder="admin@buteco.com"
+                  placeholder="seuemail@gmail.com"
                 />
               </div>
             </div>

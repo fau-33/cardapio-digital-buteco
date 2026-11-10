@@ -114,6 +114,14 @@ export default function AdminRegisterPage() {
         </Link>
 
         <div className="text-center mb-8">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo-buteco.png"
+            alt="Logo Buteco do Papá"
+            width={40}
+            height={40}
+            className="w-10 h-10 rounded-full object-contain mx-auto mb-3 shadow-md"
+          />
           <h1 className="text-2xl font-black text-[#F59E0B] tracking-wide uppercase">
             Buteco do Papá
           </h1>

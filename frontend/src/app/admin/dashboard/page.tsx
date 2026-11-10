@@ -481,9 +481,14 @@ export default function AdminDashboardPage() {
       <header className="sticky top-0 z-30 bg-[#0D0D0D]/95 backdrop-blur border-b border-[#27272A]">
         <div className="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full border-2 border-dashed border-[#F59E0B] bg-[#18181B] flex items-center justify-center font-extrabold text-amber-500 text-sm">
-              BP
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-buteco.png"
+              alt="Logo Buteco do Papá"
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-full object-contain shrink-0 shadow-md"
+            />
             <div>
               <h1 className="text-base sm:text-lg font-extrabold uppercase tracking-wide text-white flex items-center gap-2">
                 Painel do Buteco
