@@ -3,7 +3,6 @@ import {
   Post,
   Get,
   Body,
-  Headers,
   Req,
   Res,
   UseGuards,
@@ -62,24 +61,18 @@ export class AuthController {
       : 'http://localhost:3001';
   }
 
-  // rota para registrar um novo usuário
+  // rota para registrar um novo usuário (apenas e-mail e senha obrigatórios;
+  // se name não for enviado, usa a parte inicial do e-mail antes do @)
   @Post('register')
   async register(
-    @Headers('x-admin-registration-secret') headerSecret: string | undefined,
     @Body()
     body: {
-      name: string;
+      name?: string;
       email: string;
       password: string;
-      registrationSecret?: string;
-      adminSecret?: string;
     },
   ) {
-    const { registrationSecret, adminSecret, ...data } = body;
-    this.authService.assertValidRegistrationSecret(
-      headerSecret ?? registrationSecret ?? adminSecret,
-    );
-    return await this.authService.register(data);
+    return await this.authService.register(body);
   }
 
   // rota para login de usuário

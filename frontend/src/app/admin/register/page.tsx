@@ -2,17 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Mail, User, Loader2, ArrowLeft, KeyRound } from "lucide-react";
+import { Lock, Mail, Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { API_URL, warmUpApi } from "@/lib/api";
 import { validateRealEmail } from "@/lib/emailValidation";
 
 export default function AdminRegisterPage() {
   const router = useRouter();
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [registrationSecret, setRegistrationSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -21,6 +19,7 @@ export default function AdminRegisterPage() {
   }, []);
 
   const handleGoogleAuth = () => {
+    setError("");
     window.location.assign(`${API_URL}/auth/google`);
   };
 
@@ -38,22 +37,16 @@ export default function AdminRegisterPage() {
 
     try {
       const normalizedEmail = emailCheck.normalizedEmail;
-      const secretTrimmed = registrationSecret.trim();
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
-      if (secretTrimmed) {
-        headers["x-admin-registration-secret"] = secretTrimmed;
-      }
+      const defaultName = normalizedEmail.split("@")[0];
 
       const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
-        headers,
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          name: name.trim(),
           email: normalizedEmail,
           password,
-          ...(secretTrimmed ? { registrationSecret: secretTrimmed } : {}),
         }),
       });
 
@@ -74,7 +67,7 @@ export default function AdminRegisterPage() {
           JSON.stringify(
             data.admin || {
               id: data.id,
-              name: data.name || name.trim(),
+              name: data.name || defaultName,
               email: data.email || normalizedEmail,
             }
           )
@@ -124,7 +117,9 @@ export default function AdminRegisterPage() {
           <h1 className="text-2xl font-black text-[#F59E0B] tracking-wide uppercase">
             Buteco do Papá
           </h1>
-          <p className="text-sm text-zinc-400 mt-1">Criar Conta de Administrador</p>
+          <p className="text-sm text-zinc-400 mt-1">
+            Criar Conta de Administrador
+          </p>
         </div>
 
         {error && (
@@ -170,26 +165,6 @@ export default function AdminRegisterPage() {
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
-              Nome Completo
-            </label>
-            <div className="relative">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500">
-                <User size={18} />
-              </span>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                autoComplete="name"
-                className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-[#F59E0B] transition-colors"
-                placeholder="Seu Nome"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
               E-mail
             </label>
             <div className="relative">
@@ -230,25 +205,6 @@ export default function AdminRegisterPage() {
             <p className="text-[11px] text-zinc-500 mt-1.5">
               Use pelo menos 6 caracteres, incluindo letra maiúscula e minúscula.
             </p>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
-              Código de Autorização (se exigido)
-            </label>
-            <div className="relative">
-              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500">
-                <KeyRound size={18} />
-              </span>
-              <input
-                type="password"
-                value={registrationSecret}
-                onChange={(e) => setRegistrationSecret(e.target.value)}
-                autoComplete="off"
-                className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-[#F59E0B] transition-colors"
-                placeholder="Opcional (ou código do administrador)"
-              />
-            </div>
           </div>
 
           <button

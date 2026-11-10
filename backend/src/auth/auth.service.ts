@@ -142,7 +142,7 @@ export class AuthService {
   }
 
   // Registar um novo Administrador com Validação de E-mail Real (DNS MX) e Senha
-  async register(data: { name: string; email: string; password: string }) {
+  async register(data: { name?: string | null; email: string; password: string }) {
     // 0. Validar se o e-mail é real e possui domínio com MX válido
     const normalizedEmail = await this.assertRealEmailWithMx(data.email);
 
@@ -164,15 +164,19 @@ export class AuthService {
       throw new BadRequestException('E-mail já cadastrado no sistema.');
     }
 
-    // 3. Criptografa a senha
+    // 3. Define o nome padrão a partir da parte inicial do e-mail (antes do @) caso não seja informado
+    const fallbackName = normalizedEmail.split('@')[0] || 'Administrador';
+    const finalName = data.name?.trim() || fallbackName;
+
+    // 4. Criptografa a senha
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    // 4. Salva no banco Neon
+    // 5. Salva no banco Neon
     const [newUser] = await this.db
       .insert(schema.users)
       .values({
         id: crypto.randomUUID(),
-        name: data.name.trim(),
+        name: finalName,
         email: normalizedEmail,
         password: hashedPassword,
       })
