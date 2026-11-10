@@ -1,4 +1,24 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
+let warmedUp = false;
+
+/**
+ * Dispara uma chamada leve e silenciosa na raiz da API para despertar o backend
+ * (ex.: cold start no Render) imediatamente ao abrir qualquer página.
+ */
+export function warmUpApi(): void {
+  if (typeof window === "undefined" || warmedUp) return;
+  warmedUp = true;
+
+  fetch(`${API_URL}/`, {
+    method: "GET",
+    mode: "cors",
+    cache: "no-store",
+  }).catch(() => {
+    // Falha silenciosa caso o servidor ainda esteja subindo
+  });
+}
 
 export async function apiFetch<T>(
   endpoint: string,

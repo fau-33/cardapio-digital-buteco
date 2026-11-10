@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Category, Product, User } from "@/types";
-import { apiFetch } from "@/lib/api";
+import { apiFetch, warmUpApi } from "@/lib/api";
 import { getProductImageUrl } from "@/lib/productImage";
 import {
   Plus,
@@ -123,6 +123,9 @@ export default function AdminDashboardPage() {
   const [busyId, setBusyId] = useState<string | null>(null);
 
   const showToast = (type: "success" | "error", text: string) => {
+    if (type === "success" && typeof window !== "undefined") {
+      localStorage.removeItem("buteco_papa_menu_cache_v1");
+    }
     setFeedback({ type, text });
     setTimeout(() => {
       setFeedback((prev) => (prev?.text === text ? null : prev));
@@ -132,6 +135,7 @@ export default function AdminDashboardPage() {
   // 1. Verifica token (inclusive captura ?token= vindo do callback OAuth) e carrega os dados
   useEffect(() => {
     if (typeof window === "undefined") return;
+    warmUpApi();
 
     const params = new URLSearchParams(window.location.search);
     const urlToken = params.get("token");

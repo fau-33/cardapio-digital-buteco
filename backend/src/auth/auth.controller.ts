@@ -28,8 +28,6 @@ export class AuthController {
   ) {}
 
   // rota para registrar um novo usuário
-  // Protegida: exige o código ADMIN_REGISTRATION_SECRET enviado no header
-  // "x-admin-registration-secret" ou no campo "registrationSecret" do body.
   @Post('register')
   async register(
     @Headers('x-admin-registration-secret') headerSecret: string | undefined,
@@ -39,11 +37,12 @@ export class AuthController {
       email: string;
       password: string;
       registrationSecret?: string;
+      adminSecret?: string;
     },
   ) {
-    const { registrationSecret, ...data } = body;
+    const { registrationSecret, adminSecret, ...data } = body;
     this.authService.assertValidRegistrationSecret(
-      headerSecret ?? registrationSecret,
+      headerSecret ?? registrationSecret ?? adminSecret,
     );
     return await this.authService.register(data);
   }

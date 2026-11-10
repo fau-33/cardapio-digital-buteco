@@ -33,17 +33,15 @@ export class AuthService {
     return this.configService.get<string>('NODE_ENV') === 'production';
   }
 
-  // Valida o código secreto exigido para cadastrar novos administradores.
-  // Sem ADMIN_REGISTRATION_SECRET configurado, o cadastro fica fechado.
+  // Valida o código secreto exigido para cadastrar novos administradores,
+  // caso ADMIN_REGISTRATION_SECRET esteja configurado no ambiente.
   assertValidRegistrationSecret(providedSecret: string | undefined) {
-    const expectedSecret = this.configService.get<string>(
-      'ADMIN_REGISTRATION_SECRET',
-    );
+    const expectedSecret = this.configService
+      .get<string>('ADMIN_REGISTRATION_SECRET')
+      ?.trim();
 
     if (!expectedSecret) {
-      throw new ForbiddenException(
-        'O cadastro de novos administradores está desativado.',
-      );
+      return;
     }
 
     // Compara os hashes em tempo constante (evita timing attack e
@@ -98,10 +96,18 @@ export class AuthService {
         createdAt: schema.users.createdAt,
       });
 
-    // 5. Retorna o usuário com a data formatada para o horário do Brasil
-    return {
+    // 5. Gera o token JWT e retorna o usuário com a data formatada para o horário do Brasil
+    const accessToken = this.generateAccessToken(newUser);
+    const formattedAdmin = {
       ...newUser,
       createdAt: formatToBrazilTime(newUser.createdAt),
+    };
+
+    return {
+      ...formattedAdmin,
+      message: 'Administrador cadastrado com sucesso!',
+      accessToken,
+      admin: formattedAdmin,
     };
   }
 
@@ -170,9 +176,10 @@ export class AuthService {
       return existingUser;
     }
 
-    const isAllowed = this.getAllowedAdminEmails().includes(
-      data.email.toLowerCase(),
-    );
+    const allowedEmails = this.getAllowedAdminEmails();
+    const isAllowed =
+      allowedEmails.length === 0 ||
+      allowedEmails.includes(data.email.toLowerCase());
 
     if (!isAllowed) {
       throw new UnauthorizedException(
