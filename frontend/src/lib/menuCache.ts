@@ -1,6 +1,6 @@
 import { Category, Product } from "@/types";
 
-const MENU_CACHE_KEY = "buteco_papa_menu_cache_v7";
+const MENU_CACHE_KEY = "buteco_papa_menu_cache_v8";
 
 type RawSeedItem = [
   name: string,
@@ -166,16 +166,16 @@ export const INITIAL_MENU_CATEGORIES: Category[] = [
     ["Stella Gold (600ml)", 17.0, false, "/images/cervejas/stella-gold-600.jpg"],
   ]),
   buildCategory("cat-longneck", "Long Neck e Lata", 5, [
-    ["Amstel Ultra (269ml)", 6.0],
-    ["Brahma Malzbier (330ml)", 10.0],
-    ["Brahma Zero (lata)", 7.0],
-    ["Corona (330ml)", 12.0],
-    ["Corona Zero (330ml)", 12.0],
-    ["Heineken (330ml)", 12.0],
-    ["Heineken Zero (330ml)", 12.0],
-    ["Império (330ml)", 10.0],
-    ["Império Ultra (330ml)", 7.0],
-    ["Itaipava (330ml)", 5.0],
+    ["Amstel Ultra (269ml)", 6.0, false, "/images/longnecks-latas/amstel-ultra-lata.jpg"],
+    ["Brahma Malzbier (330ml)", 10.0, false, "/images/longnecks-latas/brahma-malzbier.jpg"],
+    ["Brahma Zero (lata)", 7.0, false, "/images/longnecks-latas/brahma-zero-lata.jpg"],
+    ["Corona (330ml)", 12.0, false, "/images/longnecks-latas/corona-330.jpg"],
+    ["Corona Zero (330ml)", 12.0, false, "/images/longnecks-latas/corona-zero-330.jpg"],
+    ["Heineken (330ml)", 12.0, false, "/images/longnecks-latas/heineken-330.jpg"],
+    ["Heineken Zero (330ml)", 12.0, false, "/images/longnecks-latas/heineken-zero-330.jpg"],
+    ["Império (330ml)", 10.0, false, "/images/longnecks-latas/imperio-330.jpg"],
+    ["Império Ultra (330ml)", 7.0, false, "/images/longnecks-latas/imperio-ultra-330.jpg"],
+    ["Itaipava (330ml)", 5.0, false, "/images/longnecks-latas/itaipava-330.jpg"],
   ]),
   buildCategory("cat-naoalcoolicos", "Não Alcoólicos", 6, [
     ["Água Mineral Sem Gás", 3.0],

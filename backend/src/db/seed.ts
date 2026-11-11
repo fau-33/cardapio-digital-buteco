@@ -339,16 +339,56 @@ const menu: SeedCategory[] = [
     name: 'Long Neck e Lata',
     order: 5,
     products: [
-      { name: 'Amstel Ultra (269ml)', price: 6.0 },
-      { name: 'Brahma Malzbier (330ml)', price: 10.0 },
-      { name: 'Brahma Zero (lata)', price: 7.0 },
-      { name: 'Corona (330ml)', price: 12.0 },
-      { name: 'Corona Zero (330ml)', price: 12.0 },
-      { name: 'Heineken (330ml)', price: 12.0 },
-      { name: 'Heineken Zero (330ml)', price: 12.0 },
-      { name: 'Império (330ml)', price: 10.0 },
-      { name: 'Império Ultra (330ml)', price: 7.0 },
-      { name: 'Itaipava (330ml)', price: 5.0 },
+      {
+        name: 'Amstel Ultra (269ml)',
+        price: 6.0,
+        imageUrl: '/images/longnecks-latas/amstel-ultra-lata.jpg',
+      },
+      {
+        name: 'Brahma Malzbier (330ml)',
+        price: 10.0,
+        imageUrl: '/images/longnecks-latas/brahma-malzbier.jpg',
+      },
+      {
+        name: 'Brahma Zero (lata)',
+        price: 7.0,
+        imageUrl: '/images/longnecks-latas/brahma-zero-lata.jpg',
+      },
+      {
+        name: 'Corona (330ml)',
+        price: 12.0,
+        imageUrl: '/images/longnecks-latas/corona-330.jpg',
+      },
+      {
+        name: 'Corona Zero (330ml)',
+        price: 12.0,
+        imageUrl: '/images/longnecks-latas/corona-zero-330.jpg',
+      },
+      {
+        name: 'Heineken (330ml)',
+        price: 12.0,
+        imageUrl: '/images/longnecks-latas/heineken-330.jpg',
+      },
+      {
+        name: 'Heineken Zero (330ml)',
+        price: 12.0,
+        imageUrl: '/images/longnecks-latas/heineken-zero-330.jpg',
+      },
+      {
+        name: 'Império (330ml)',
+        price: 10.0,
+        imageUrl: '/images/longnecks-latas/imperio-330.jpg',
+      },
+      {
+        name: 'Império Ultra (330ml)',
+        price: 7.0,
+        imageUrl: '/images/longnecks-latas/imperio-ultra-330.jpg',
+      },
+      {
+        name: 'Itaipava (330ml)',
+        price: 5.0,
+        imageUrl: '/images/longnecks-latas/itaipava-330.jpg',
+      },
     ],
   },
   {

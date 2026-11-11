@@ -263,6 +263,38 @@ export function getFallbackProductImageUrl(
     return "/images/cervejas/stella-gold-600.jpg";
   }
 
+  // Imagens reais locais das Long Necks e Latas oficiais do Buteco do Papá
+  if (name === "amstel ultra (269ml)" || name.startsWith("amstel ultra")) {
+    return "/images/longnecks-latas/amstel-ultra-lata.jpg";
+  }
+  if (name === "brahma malzbier (330ml)" || name.startsWith("brahma malzbier")) {
+    return "/images/longnecks-latas/brahma-malzbier.jpg";
+  }
+  if (name === "brahma zero (lata)" || name.startsWith("brahma zero")) {
+    return "/images/longnecks-latas/brahma-zero-lata.jpg";
+  }
+  if (name === "corona zero (330ml)" || name.startsWith("corona zero") || name.startsWith("corona cero")) {
+    return "/images/longnecks-latas/corona-zero-330.jpg";
+  }
+  if (name === "corona (330ml)" || name.startsWith("corona (330") || name.startsWith("corona extra")) {
+    return "/images/longnecks-latas/corona-330.jpg";
+  }
+  if (name === "heineken zero (330ml)" || name.startsWith("heineken zero") || name.startsWith("heineken 0")) {
+    return "/images/longnecks-latas/heineken-zero-330.jpg";
+  }
+  if (name === "heineken (330ml)" || name.startsWith("heineken (330")) {
+    return "/images/longnecks-latas/heineken-330.jpg";
+  }
+  if (name === "imperio ultra (330ml)" || name.startsWith("imperio ultra")) {
+    return "/images/longnecks-latas/imperio-ultra-330.jpg";
+  }
+  if (name === "imperio (330ml)" || name.startsWith("imperio (330")) {
+    return "/images/longnecks-latas/imperio-330.jpg";
+  }
+  if (name === "itaipava (330ml)" || name.startsWith("itaipava (330")) {
+    return "/images/longnecks-latas/itaipava-330.jpg";
+  }
+
   // 1. Caldos e Sopas
   if (
     hasAnyKeyword(name, ["caldo", "mocoto", "sururu", "quenga", "sopa"]) ||
