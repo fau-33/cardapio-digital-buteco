@@ -1,6 +1,6 @@
 import { Category, Product } from "@/types";
 
-const MENU_CACHE_KEY = "buteco_papa_menu_cache_v6";
+const MENU_CACHE_KEY = "buteco_papa_menu_cache_v7";
 
 type RawSeedItem = [
   name: string,
@@ -150,20 +150,20 @@ export const INITIAL_MENU_CATEGORIES: Category[] = [
     ["Xixim de Bofe (2 pessoas)", 50.0, false, "/images/refeicoes/xinxim-bofe-2.jpg"],
   ]),
   buildCategory("cat-cerveja", "Cerveja", 4, [
-    ["Amstel (600ml)", 12.0],
-    ["Brahma Shopp (600ml)", 11.0],
-    ["Budweiser (600ml)", 12.0],
-    ["Chopp de Vinho (300ml)", 15.0],
-    ["Devassa (600ml)", 10.0],
-    ["Eisenbahn (600ml)", 13.0],
-    ["Heineken (600ml)", 17.0],
-    ["Império (600ml)", 14.0],
-    ["Itaipava (600ml)", 10.0],
-    ["Original (600ml)", 12.0],
-    ["Skol (600ml)", 10.0],
-    ["Spaten (600ml)", 13.0],
-    ["Stella Artois (600ml)", 14.0],
-    ["Stella Gold (600ml)", 17.0],
+    ["Amstel (600ml)", 12.0, false, "/images/cervejas/amstel-600.jpg"],
+    ["Brahma Shopp (600ml)", 11.0, false, "/images/cervejas/brahma-shopp-600.jpg"],
+    ["Budweiser (600ml)", 12.0, false, "/images/cervejas/budweiser-600.jpg"],
+    ["Chopp de Vinho (300ml)", 15.0, false, "/images/cervejas/chopp-vinho-300.jpg"],
+    ["Devassa (600ml)", 10.0, false, "/images/cervejas/devassa-600.jpg"],
+    ["Eisenbahn (600ml)", 13.0, false, "/images/cervejas/eisenbahn-600.jpg"],
+    ["Heineken (600ml)", 17.0, false, "/images/cervejas/heineken-600.jpg"],
+    ["Império (600ml)", 14.0, false, "/images/cervejas/imperio-600.jpg"],
+    ["Itaipava (600ml)", 10.0, false, "/images/cervejas/itaipava-600.jpg"],
+    ["Original (600ml)", 12.0, false, "/images/cervejas/original-600.jpg"],
+    ["Skol (600ml)", 10.0, false, "/images/cervejas/skol-600.jpg"],
+    ["Spaten (600ml)", 13.0, false, "/images/cervejas/spaten-600.jpg"],
+    ["Stella Artois (600ml)", 14.0, false, "/images/cervejas/stella-artois-600.jpg"],
+    ["Stella Gold (600ml)", 17.0, false, "/images/cervejas/stella-gold-600.jpg"],
   ]),
   buildCategory("cat-longneck", "Long Neck e Lata", 5, [
     ["Amstel Ultra (269ml)", 6.0],

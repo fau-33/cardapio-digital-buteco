@@ -208,6 +208,61 @@ export function getFallbackProductImageUrl(
     return "/images/refeicoes/xinxim-bofe-2.jpg";
   }
 
+  // Imagens reais locais das Cervejas oficiais do Buteco do Papá
+  if (name === "amstel (600ml)" || name.startsWith("amstel (600")) {
+    return "/images/cervejas/amstel-600.jpg";
+  }
+  if (
+    name === "brahma shopp (600ml)" ||
+    name === "brahma chopp (600ml)" ||
+    name.startsWith("brahma shopp") ||
+    name.startsWith("brahma chopp") ||
+    name.startsWith("brahma (600")
+  ) {
+    return "/images/cervejas/brahma-shopp-600.jpg";
+  }
+  if (name === "budweiser (600ml)" || name.startsWith("budweiser (600")) {
+    return "/images/cervejas/budweiser-600.jpg";
+  }
+  if (name === "chopp de vinho (300ml)" || name.startsWith("chopp de vinho")) {
+    return "/images/cervejas/chopp-vinho-300.jpg";
+  }
+  if (name === "devassa (600ml)" || name.startsWith("devassa")) {
+    return "/images/cervejas/devassa-600.jpg";
+  }
+  if (name === "eisenbahn (600ml)" || name.startsWith("eisenbahn (600") || name === "eisenbahn") {
+    return "/images/cervejas/eisenbahn-600.jpg";
+  }
+  if (name === "heineken (600ml)" || name.startsWith("heineken (600")) {
+    return "/images/cervejas/heineken-600.jpg";
+  }
+  if (name === "imperio (600ml)" || name.startsWith("imperio (600")) {
+    return "/images/cervejas/imperio-600.jpg";
+  }
+  if (name === "itaipava (600ml)" || name.startsWith("itaipava (600")) {
+    return "/images/cervejas/itaipava-600.jpg";
+  }
+  if (name === "original (600ml)" || name.startsWith("original")) {
+    return "/images/cervejas/original-600.jpg";
+  }
+  if (name === "skol (600ml)" || name.startsWith("skol (600")) {
+    return "/images/cervejas/skol-600.jpg";
+  }
+  if (name === "spaten (600ml)" || name.startsWith("spaten")) {
+    return "/images/cervejas/spaten-600.jpg";
+  }
+  if (name === "stella artois (600ml)" || name.startsWith("stella artois")) {
+    return "/images/cervejas/stella-artois-600.jpg";
+  }
+  if (
+    name === "stella gold (600ml)" ||
+    name === "stella pure gold (600ml)" ||
+    name.startsWith("stella gold") ||
+    name.startsWith("stella pure gold")
+  ) {
+    return "/images/cervejas/stella-gold-600.jpg";
+  }
+
   // 1. Caldos e Sopas
   if (
     hasAnyKeyword(name, ["caldo", "mocoto", "sururu", "quenga", "sopa"]) ||
