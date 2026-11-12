@@ -410,8 +410,16 @@ const menu: SeedCategory[] = [
         price: 7.0,
         imageUrl: '/images/nao-alcoolicos/agua-tonica-schweppes.jpg',
       },
-      { name: 'Antarctica (lata)', price: 6.0 },
-      { name: 'Antarctica (1lt)', price: 10.0 },
+      {
+        name: 'Antarctica (lata)',
+        price: 6.0,
+        imageUrl: '/images/nao-alcoolicos/antarctica-lata.jpg',
+      },
+      {
+        name: 'Antarctica (1lt)',
+        price: 10.0,
+        imageUrl: '/images/nao-alcoolicos/antarctica-1l.jpg',
+      },
       {
         name: 'Coca-cola (lata)',
         price: 7.0,
@@ -462,13 +470,21 @@ const menu: SeedCategory[] = [
         price: 7.0,
         imageUrl: '/images/nao-alcoolicos/suco-del-valle.jpg',
       },
-      { name: 'Gatorade', price: 8.0 },
+      {
+        name: 'Gatorade',
+        price: 8.0,
+        imageUrl: '/images/nao-alcoolicos/gatorade.jpg',
+      },
       {
         name: 'Powerade',
         price: 8.0,
         imageUrl: '/images/nao-alcoolicos/powerade.jpg',
       },
-      { name: 'Bivolt (Energético)', price: 7.0 },
+      {
+        name: 'Bivolt (Energético)',
+        price: 7.0,
+        imageUrl: '/images/nao-alcoolicos/bivolt-energetico.jpg',
+      },
       {
         name: 'Red Bull',
         price: 15.0,

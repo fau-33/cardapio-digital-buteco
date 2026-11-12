@@ -305,6 +305,12 @@ export function getFallbackProductImageUrl(
   if (name === "agua tonica schweppes" || name.startsWith("agua tonica")) {
     return "/images/nao-alcoolicos/agua-tonica-schweppes.jpg";
   }
+  if (name === "antarctica (lata)" || name.startsWith("antarctica (lata")) {
+    return "/images/nao-alcoolicos/antarctica-lata.jpg";
+  }
+  if (name === "antarctica (1lt)" || name.startsWith("antarctica (1")) {
+    return "/images/nao-alcoolicos/antarctica-1l.jpg";
+  }
   if (name === "coca-cola zero (lata)" || name.startsWith("coca-cola zero (lata")) {
     return "/images/nao-alcoolicos/coca-cola-zero-lata.jpg";
   }
@@ -335,8 +341,14 @@ export function getFallbackProductImageUrl(
   if (name === "suco del valle" || name.startsWith("suco del valle")) {
     return "/images/nao-alcoolicos/suco-del-valle.jpg";
   }
+  if (name === "gatorade" || name.startsWith("gatorade")) {
+    return "/images/nao-alcoolicos/gatorade.jpg";
+  }
   if (name === "powerade" || name.startsWith("powerade")) {
     return "/images/nao-alcoolicos/powerade.jpg";
+  }
+  if (name === "bivolt (energetico)" || name.startsWith("bivolt")) {
+    return "/images/nao-alcoolicos/bivolt-energetico.jpg";
   }
   if (name === "red bull" || name.startsWith("red bull")) {
     return "/images/nao-alcoolicos/red-bull.jpg";
