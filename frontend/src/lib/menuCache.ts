@@ -1,6 +1,6 @@
 import { Category, Product } from "@/types";
 
-const MENU_CACHE_KEY = "buteco_papa_menu_cache_v8";
+const MENU_CACHE_KEY = "buteco_papa_menu_cache_v9";
 
 type RawSeedItem = [
   name: string,
@@ -178,25 +178,25 @@ export const INITIAL_MENU_CATEGORIES: Category[] = [
     ["Itaipava (330ml)", 5.0, false, "/images/longnecks-latas/itaipava-330.jpg"],
   ]),
   buildCategory("cat-naoalcoolicos", "Não Alcoólicos", 6, [
-    ["Água Mineral Sem Gás", 3.0],
-    ["Água Mineral Com Gás", 3.0],
-    ["Água Tônica Schweppes", 7.0],
+    ["Água Mineral Sem Gás", 3.0, false, "/images/nao-alcoolicos/agua-mineral-sem-gas.jpg"],
+    ["Água Mineral Com Gás", 3.0, false, "/images/nao-alcoolicos/agua-mineral-com-gas.jpg"],
+    ["Água Tônica Schweppes", 7.0, false, "/images/nao-alcoolicos/agua-tonica-schweppes.jpg"],
     ["Antarctica (lata)", 6.0],
     ["Antarctica (1lt)", 10.0],
-    ["Coca-cola (lata)", 7.0],
-    ["Coca-cola Zero (lata)", 7.0],
-    ["Coca-cola (1lt)", 11.0],
-    ["Coca-cola Zero (1lt)", 11.0],
-    ["Fanta (lata)", 6.0],
-    ["H2O", 7.0],
-    ["Pepsi (lata)", 6.0],
-    ["Pepsi (1lt)", 10.0],
-    ["Sprite (lata)", 6.0],
-    ["Suco Del Valle", 7.0],
+    ["Coca-cola (lata)", 7.0, false, "/images/nao-alcoolicos/coca-cola-lata.jpg"],
+    ["Coca-cola Zero (lata)", 7.0, false, "/images/nao-alcoolicos/coca-cola-zero-lata.jpg"],
+    ["Coca-cola (1lt)", 11.0, false, "/images/nao-alcoolicos/coca-cola-1l.jpg"],
+    ["Coca-cola Zero (1lt)", 11.0, false, "/images/nao-alcoolicos/coca-cola-zero-1l.jpg"],
+    ["Fanta (lata)", 6.0, false, "/images/nao-alcoolicos/fanta-lata.jpg"],
+    ["H2O", 7.0, false, "/images/nao-alcoolicos/h2oh-limao.jpg"],
+    ["Pepsi (lata)", 6.0, false, "/images/nao-alcoolicos/pepsi-lata.jpg"],
+    ["Pepsi (1lt)", 10.0, false, "/images/nao-alcoolicos/pepsi-1l.jpg"],
+    ["Sprite (lata)", 6.0, false, "/images/nao-alcoolicos/sprite-lata.jpg"],
+    ["Suco Del Valle", 7.0, false, "/images/nao-alcoolicos/suco-del-valle.jpg"],
     ["Gatorade", 8.0],
-    ["Powerade", 8.0],
+    ["Powerade", 8.0, false, "/images/nao-alcoolicos/powerade.jpg"],
     ["Bivolt (Energético)", 7.0],
-    ["Red Bull", 15.0],
+    ["Red Bull", 15.0, false, "/images/nao-alcoolicos/red-bull.jpg"],
   ]),
   buildCategory("cat-destilados", "Destilados e Doses", 7, [
     ["Ballantine’s (Dose)", 12.0],

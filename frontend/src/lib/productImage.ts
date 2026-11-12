@@ -295,6 +295,53 @@ export function getFallbackProductImageUrl(
     return "/images/longnecks-latas/itaipava-330.jpg";
   }
 
+  // Imagens reais locais dos Refrigerantes e Não Alcoólicos oficiais do Buteco do Papá
+  if (name === "agua mineral sem gas" || name.startsWith("agua mineral sem gas")) {
+    return "/images/nao-alcoolicos/agua-mineral-sem-gas.jpg";
+  }
+  if (name === "agua mineral com gas" || name.startsWith("agua mineral com gas")) {
+    return "/images/nao-alcoolicos/agua-mineral-com-gas.jpg";
+  }
+  if (name === "agua tonica schweppes" || name.startsWith("agua tonica")) {
+    return "/images/nao-alcoolicos/agua-tonica-schweppes.jpg";
+  }
+  if (name === "coca-cola zero (lata)" || name.startsWith("coca-cola zero (lata")) {
+    return "/images/nao-alcoolicos/coca-cola-zero-lata.jpg";
+  }
+  if (name === "coca-cola (lata)" || name.startsWith("coca-cola (lata")) {
+    return "/images/nao-alcoolicos/coca-cola-lata.jpg";
+  }
+  if (name === "coca-cola zero (1lt)" || name.startsWith("coca-cola zero (1")) {
+    return "/images/nao-alcoolicos/coca-cola-zero-1l.jpg";
+  }
+  if (name === "coca-cola (1lt)" || name.startsWith("coca-cola (1")) {
+    return "/images/nao-alcoolicos/coca-cola-1l.jpg";
+  }
+  if (name === "fanta (lata)" || name.startsWith("fanta (lata") || name === "fanta") {
+    return "/images/nao-alcoolicos/fanta-lata.jpg";
+  }
+  if (name === "h2o" || name.startsWith("h2o") || name.startsWith("h2oh")) {
+    return "/images/nao-alcoolicos/h2oh-limao.jpg";
+  }
+  if (name === "pepsi (lata)" || name.startsWith("pepsi (lata")) {
+    return "/images/nao-alcoolicos/pepsi-lata.jpg";
+  }
+  if (name === "pepsi (1lt)" || name.startsWith("pepsi (1")) {
+    return "/images/nao-alcoolicos/pepsi-1l.jpg";
+  }
+  if (name === "sprite (lata)" || name.startsWith("sprite")) {
+    return "/images/nao-alcoolicos/sprite-lata.jpg";
+  }
+  if (name === "suco del valle" || name.startsWith("suco del valle")) {
+    return "/images/nao-alcoolicos/suco-del-valle.jpg";
+  }
+  if (name === "powerade" || name.startsWith("powerade")) {
+    return "/images/nao-alcoolicos/powerade.jpg";
+  }
+  if (name === "red bull" || name.startsWith("red bull")) {
+    return "/images/nao-alcoolicos/red-bull.jpg";
+  }
+
   // 1. Caldos e Sopas
   if (
     hasAnyKeyword(name, ["caldo", "mocoto", "sururu", "quenga", "sopa"]) ||
