@@ -28,29 +28,11 @@ export class AuthController {
     private readonly configService: ConfigService,
   ) {}
 
-  private resolveFrontendUrl(req: GoogleAuthRequest): string {
+  private resolveFrontendUrl(): string {
     const configured = this.configService
       .get<string>('FRONTEND_URL')
       ?.trim()
       .replace(/\/+$/, '');
-
-    // Se a requisição veio de um domínio público (ex.: Vercel) e FRONTEND_URL
-    // ainda aponta para localhost ou não foi definida, prioriza a origem real.
-    const referer = req.headers.referer || req.headers.origin;
-    if (typeof referer === 'string') {
-      try {
-        const origin = new URL(referer).origin;
-        if (
-          origin &&
-          (!configured ||
-            (configured.includes('localhost') && !origin.includes('localhost')))
-        ) {
-          return origin;
-        }
-      } catch {
-        // Ignora referer malformado
-      }
-    }
 
     if (configured) {
       return configured;
@@ -61,17 +43,25 @@ export class AuthController {
       : 'http://localhost:3001';
   }
 
-  // rota para registrar um novo usuário (apenas e-mail e senha obrigatórios;
-  // se name não for enviado, usa a parte inicial do e-mail antes do @)
+  // rota para registrar um novo usuário (exige código de autorização ADMIN_REGISTRATION_SECRET)
   @Post('register')
   async register(
+    @Req() req: GoogleAuthRequest,
     @Body()
     body: {
       name?: string;
       email: string;
       password: string;
+      registrationSecret?: string;
     },
   ) {
+    const headerSecret = req.headers['x-admin-registration-secret'];
+    const providedSecret =
+      typeof headerSecret === 'string' && headerSecret.trim()
+        ? headerSecret
+        : body.registrationSecret;
+
+    this.authService.assertValidRegistrationSecret(providedSecret);
     return await this.authService.register(body);
   }
 
@@ -102,7 +92,7 @@ export class AuthController {
   @UseGuards(GoogleOAuthGuard)
   async googleAuth(@Req() req: GoogleAuthRequest, @Res() res: Response) {
     if (req.googleNotConfigured) {
-      const frontendUrl = this.resolveFrontendUrl(req);
+      const frontendUrl = this.resolveFrontendUrl();
       return res.redirect(
         `${frontendUrl}/admin/login?error=google_not_configured`,
       );
@@ -116,7 +106,7 @@ export class AuthController {
     @Req() req: GoogleAuthRequest,
     @Res() res: Response,
   ) {
-    const frontendUrl = this.resolveFrontendUrl(req);
+    const frontendUrl = this.resolveFrontendUrl();
 
     if (req.googleNotConfigured) {
       return res.redirect(

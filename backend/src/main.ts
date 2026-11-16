@@ -19,7 +19,37 @@ function assertRequiredEnv() {
 async function bootstrap() {
   assertRequiredEnv();
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+
+  const allowedOrigins = Array.from(
+    new Set(
+      [
+        'https://cardapio-buteco-papa.vercel.app',
+        process.env.FRONTEND_URL?.trim().replace(/\/+$/, ''),
+        'http://localhost:3000',
+        'http://localhost:3001',
+      ].filter(Boolean) as string[],
+    ),
+  );
+
+  app.enableCors({
+    origin: (
+      origin: string | undefined,
+      callback: (err: Error | null, allow?: boolean) => void,
+    ) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Origem não autorizada pelo CORS.'), false);
+    },
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'x-admin-registration-secret',
+    ],
+    credentials: true,
+  });
+
   await app.listen(process.env.PORT ?? 3000);
 }
 await bootstrap();

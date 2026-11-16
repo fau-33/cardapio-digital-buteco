@@ -63,15 +63,17 @@ export class AuthService {
     return this.configService.get<string>('NODE_ENV') === 'production';
   }
 
-  // Valida o código secreto exigido para cadastrar novos administradores,
-  // caso ADMIN_REGISTRATION_SECRET esteja configurado no ambiente.
+  // Valida o código secreto exigido para cadastrar novos administradores
+  // (Fail-closed: se ADMIN_REGISTRATION_SECRET estiver vazio, bloqueia novos cadastros).
   assertValidRegistrationSecret(providedSecret: string | undefined) {
     const expectedSecret = this.configService
       .get<string>('ADMIN_REGISTRATION_SECRET')
       ?.trim();
 
     if (!expectedSecret) {
-      return;
+      throw new ForbiddenException(
+        'O cadastro público de novos administradores está desativado.',
+      );
     }
 
     // Compara os hashes em tempo constante (evita timing attack e
@@ -79,10 +81,10 @@ export class AuthService {
     const expected = crypto.createHash('sha256').update(expectedSecret).digest();
     const provided = crypto
       .createHash('sha256')
-      .update(providedSecret ?? '')
+      .update((providedSecret ?? '').trim())
       .digest();
 
-    if (!providedSecret || !crypto.timingSafeEqual(expected, provided)) {
+    if (!providedSecret?.trim() || !crypto.timingSafeEqual(expected, provided)) {
       throw new ForbiddenException('Código de autorização de cadastro inválido.');
     }
   }
@@ -271,7 +273,7 @@ export class AuthService {
 
     const allowedEmails = this.getAllowedAdminEmails();
     const isAllowed =
-      allowedEmails.length === 0 ||
+      allowedEmails.length > 0 &&
       allowedEmails.includes(data.email.toLowerCase());
 
     if (!isAllowed) {
@@ -300,10 +302,11 @@ export class AuthService {
 
   // 1. Solicitar recuperação de senha
   async forgotPassword(data: { email: string }) {
+    const normalizedEmail = (data.email ?? '').trim().toLowerCase();
     const [user] = await this.db
       .select()
       .from(schema.users)
-      .where(eq(schema.users.email, data.email));
+      .where(eq(schema.users.email, normalizedEmail));
 
     // Mesma resposta para e-mail existente ou não (evita enumeração de contas)
     if (!user) {
@@ -354,12 +357,27 @@ export class AuthService {
       );
     }
 
+    const normalizedEmail = (data.email ?? '').trim().toLowerCase();
     const [user] = await this.db
       .select()
       .from(schema.users)
-      .where(eq(schema.users.email, data.email));
+      .where(eq(schema.users.email, normalizedEmail));
 
-    if (!user || !user.resetToken || user.resetToken !== data.token) {
+    const expectedTokenHash = crypto
+      .createHash('sha256')
+      .update(user?.resetToken ?? '')
+      .digest();
+    const providedTokenHash = crypto
+      .createHash('sha256')
+      .update((data.token ?? '').trim())
+      .digest();
+
+    if (
+      !user ||
+      !user.resetToken ||
+      !data.token?.trim() ||
+      !crypto.timingSafeEqual(expectedTokenHash, providedTokenHash)
+    ) {
       throw new BadRequestException('Token inválido ou e-mail incorreto.');
     }
 

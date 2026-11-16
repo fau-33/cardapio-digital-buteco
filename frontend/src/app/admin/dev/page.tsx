@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   QrCode,
@@ -21,13 +22,32 @@ const OFFICIAL_MENU_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://cardapio-buteco-papa.vercel.app";
 
 export default function DeveloperQrCodePage() {
+  const router = useRouter();
+  const [authChecked, setAuthChecked] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [downloadingQr, setDownloadingQr] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     warmUpApi();
-  }, []);
+
+    const token = localStorage.getItem("admin_token");
+    if (!token) {
+      router.replace("/admin/login");
+      return;
+    }
+
+    setAuthChecked(true);
+  }, [router]);
+
+  if (!authChecked) {
+    return (
+      <main className="min-h-screen bg-[#0D0D0D] text-white flex items-center justify-center">
+        <Loader2 className="animate-spin text-[#F59E0B]" size={28} />
+      </main>
+    );
+  }
 
   const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&format=png&margin=20&ecc=H&data=${encodeURIComponent(
     OFFICIAL_MENU_URL

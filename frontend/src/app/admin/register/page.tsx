@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Mail, Loader2, ArrowLeft } from "lucide-react";
+import { Lock, Mail, KeyRound, Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { API_URL, warmUpApi } from "@/lib/api";
 import { validateRealEmail } from "@/lib/emailValidation";
@@ -11,6 +11,7 @@ export default function AdminRegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [registrationSecret, setRegistrationSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -43,10 +44,12 @@ export default function AdminRegisterPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-admin-registration-secret": registrationSecret.trim(),
         },
         body: JSON.stringify({
           email: normalizedEmail,
           password,
+          registrationSecret: registrationSecret.trim(),
         }),
       });
 
@@ -212,6 +215,29 @@ export default function AdminRegisterPage() {
             </div>
             <p className="text-[11px] text-zinc-500 mt-1.5">
               Use pelo menos 6 caracteres, incluindo letra maiúscula e minúscula.
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2">
+              Código de Autorização
+            </label>
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-zinc-500">
+                <KeyRound size={18} />
+              </span>
+              <input
+                type="password"
+                value={registrationSecret}
+                onChange={(e) => setRegistrationSecret(e.target.value)}
+                required
+                autoComplete="off"
+                className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-[#F59E0B] transition-colors"
+                placeholder="Informe o código fornecido pelo administrador"
+              />
+            </div>
+            <p className="text-[11px] text-zinc-500 mt-1.5">
+              Exigido para autorizar o cadastro de novos administradores do bar.
             </p>
           </div>
 

@@ -11,18 +11,9 @@ import sharp from 'sharp';
 export class CloudinaryService {
   constructor(private readonly configService: ConfigService) {
     cloudinary.config({
-      cloud_name:
-        this.configService.get<string>('CLOUDINARY_CLOUD_NAME') ||
-        process.env.CLOUDINARY_CLOUD_NAME ||
-        'zcg5o50x',
-      api_key:
-        this.configService.get<string>('CLOUDINARY_API_KEY') ||
-        process.env.CLOUDINARY_API_KEY ||
-        '118441877883824',
-      api_secret:
-        this.configService.get<string>('CLOUDINARY_API_SECRET') ||
-        process.env.CLOUDINARY_API_SECRET ||
-        'kgZo3GWxNEa8XJwywmHJJ2_JiFs',
+      cloud_name: this.configService.get<string>('CLOUDINARY_CLOUD_NAME'),
+      api_key: this.configService.get<string>('CLOUDINARY_API_KEY'),
+      api_secret: this.configService.get<string>('CLOUDINARY_API_SECRET'),
     });
   }
 
@@ -39,7 +30,9 @@ export class CloudinaryService {
 
     let optimizedBuffer: Buffer;
     try {
-      optimizedBuffer = await sharp(fileBuffer)
+      optimizedBuffer = await sharp(fileBuffer, {
+        limitInputPixels: 40_000_000,
+      })
         .rotate()
         .flatten({ background: '#ffffff' })
         .resize(800, 520, {
