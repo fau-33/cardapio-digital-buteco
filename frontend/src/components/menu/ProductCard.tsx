@@ -140,7 +140,7 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
             aria-haspopup="dialog"
             aria-expanded={isModalMounted}
             title={`Clique para ampliar a foto de ${product.name}`}
-            className="group relative w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden shrink-0 border border-amber-500/25 hover:border-[#F59E0B] bg-[#0D0D0D] shadow-sm cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#18181B] transition-all duration-200"
+            className="group relative w-20 sm:w-24 aspect-[800/520] rounded-lg overflow-hidden shrink-0 border border-amber-500/25 hover:border-[#F59E0B] bg-white shadow-sm cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#18181B] transition-all duration-200"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -153,11 +153,11 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
                   setFailedUrl(primaryUrl);
                 }
               }}
-              className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-110 group-focus-visible:scale-110"
+              className="w-full h-full object-contain transition-transform duration-300 ease-out group-hover:scale-105 group-focus-visible:scale-105"
             />
             <span
               aria-hidden="true"
-              className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200 flex items-center justify-center"
+              className="absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-200 flex items-center justify-center"
             >
               <ZoomIn size={16} className="text-[#F59E0B] drop-shadow" />
             </span>
@@ -222,7 +222,7 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
               {/* Área da Imagem Ampliada com Zoom Suave */}
               <div
                 onClick={() => setIsExtraZoomed((prev) => !prev)}
-                className={`relative w-full bg-[#0D0D0D] flex items-center justify-center overflow-hidden select-none ${
+                className={`relative w-full aspect-[800/520] bg-white flex items-center justify-center overflow-hidden select-none ${
                   isExtraZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
                 }`}
               >
@@ -236,7 +236,7 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
                       setFailedUrl(primaryUrl);
                     }
                   }}
-                  className={`w-full max-h-[65vh] sm:max-h-[70vh] object-contain transition-transform duration-500 ease-out ${
+                  className={`w-full h-full max-h-[65vh] sm:max-h-[70vh] object-contain transition-transform duration-500 ease-out ${
                     isExtraZoomed ? "scale-150" : "scale-100 hover:scale-[1.03]"
                   }`}
                 />

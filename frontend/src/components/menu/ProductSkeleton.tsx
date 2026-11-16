@@ -12,7 +12,7 @@ export function ProductSkeleton() {
       {/* Preço + Thumbnail */}
       <div className="flex items-center gap-3 shrink-0">
         <div className="h-5 bg-[#27272A] rounded w-16"></div>
-        <div className="w-14 h-14 sm:w-16 sm:h-16 bg-[#27272A] rounded-lg"></div>
+        <div className="w-20 sm:w-24 aspect-[800/520] bg-[#27272A] rounded-lg"></div>
       </div>
     </div>
   );

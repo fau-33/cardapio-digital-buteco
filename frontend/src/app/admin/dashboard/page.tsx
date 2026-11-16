@@ -819,7 +819,7 @@ export default function AdminDashboardPage() {
                               categoryMap.get(product.categoryId)
                             )}
                             loading="lazy"
-                            className="w-11 h-11 rounded-lg object-cover shrink-0 border border-amber-500/25 bg-[#0D0D0D]"
+                            className="w-16 aspect-[800/520] rounded-lg object-contain shrink-0 border border-amber-500/25 bg-white"
                           />
                         </div>
 
@@ -1051,7 +1051,7 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* Preview da Imagem Atual ou Selecionada */}
-                <div className="relative w-full aspect-[800/520] max-h-44 rounded-lg overflow-hidden border border-[#27272A] bg-[#18181B] flex items-center justify-center">
+                <div className="relative w-full aspect-[800/520] max-h-44 rounded-lg overflow-hidden border border-[#27272A] bg-white flex items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={
@@ -1065,7 +1065,7 @@ export default function AdminDashboardPage() {
                       )
                     }
                     alt={prodName || "Pré-visualização do produto"}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
 
                   {uploadingImage && (

@@ -1,7 +1,7 @@
 import { Category, Product } from "@/types";
 import { getProductAccessibleDescription } from "@/lib/productImage";
 
-export const MENU_CACHE_KEY = "buteco_papa_menu_cache_v12";
+export const MENU_CACHE_KEY = "buteco_papa_menu_cache_v13";
 
 type RawSeedItem = [
   name: string,
