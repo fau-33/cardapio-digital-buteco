@@ -41,10 +41,9 @@ export class CloudinaryService {
     try {
       optimizedBuffer = await sharp(fileBuffer)
         .rotate()
-        .flatten({ background: { r: 255, g: 255, b: 255 } })
+        .flatten({ background: '#ffffff' })
         .resize(800, 520, {
-          fit: 'cover',
-          position: sharp.strategy.attention,
+          fit: 'contain',
           background: { r: 255, g: 255, b: 255, alpha: 1 },
         })
         .sharpen({ sigma: 0.85 })
