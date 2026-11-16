@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Category, Product, User } from "@/types";
 import { apiFetch, warmUpApi } from "@/lib/api";
-import { getProductImageUrl } from "@/lib/productImage";
+import { MENU_CACHE_KEY } from "@/lib/menuCache";
+import { getProductImageAlt, getProductImageUrl } from "@/lib/productImage";
 import {
   Plus,
   Pencil,
@@ -88,7 +89,7 @@ export default function AdminDashboardPage() {
 
   const showToast = (type: "success" | "error", text: string) => {
     if (type === "success" && typeof window !== "undefined") {
-      localStorage.removeItem("buteco_papa_menu_cache_v1");
+      localStorage.removeItem(MENU_CACHE_KEY);
     }
     setFeedback({ type, text });
     setTimeout(() => {
@@ -763,7 +764,10 @@ export default function AdminDashboardPage() {
                               product,
                               categoryMap.get(product.categoryId)
                             )}
-                            alt={product.name}
+                            alt={getProductImageAlt(
+                              product,
+                              categoryMap.get(product.categoryId)
+                            )}
                             loading="lazy"
                             className="w-11 h-11 rounded-lg object-cover shrink-0 border border-amber-500/25 bg-[#0D0D0D]"
                           />

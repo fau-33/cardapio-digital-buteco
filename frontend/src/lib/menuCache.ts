@@ -1,6 +1,7 @@
 import { Category, Product } from "@/types";
+import { getProductAccessibleDescription } from "@/lib/productImage";
 
-const MENU_CACHE_KEY = "buteco_papa_menu_cache_v10";
+export const MENU_CACHE_KEY = "buteco_papa_menu_cache_v11";
 
 type RawSeedItem = [
   name: string,
@@ -21,6 +22,7 @@ function buildCategory(
       categoryId: id,
       name: prodName,
       description: "",
+      altText: getProductAccessibleDescription(prodName, name),
       price: price.toFixed(2),
       imageUrl,
       isNovelty: Boolean(isNovelty),
