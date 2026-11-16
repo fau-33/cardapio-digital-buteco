@@ -354,6 +354,11 @@ export function getFallbackProductImageUrl(
     return "/images/nao-alcoolicos/red-bull.jpg";
   }
 
+  // Imagens oficiais dos Destilados e Doses no Cloudinary
+  if (name === "5 estrelas (conhaque)" || name.startsWith("5 estrelas")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794861144/buteco-do-papa/produtos/wovi8lqckxaa2tyabhnb.jpg";
+  }
+
   // 1. Caldos e Sopas
   if (
     hasAnyKeyword(name, ["caldo", "mocoto", "sururu", "quenga", "sopa"]) ||
@@ -574,6 +579,19 @@ export function getFallbackProductImageUrl(
   return UNSPLASH_IMAGES.barSnacks;
 }
 
+function sanitizeCloudinaryUrl(url: string): string {
+  // Substitui a versão antiga cortada (v1794857447) pela versão íntegra (v1794861144)
+  let clean = url.replace(
+    "v1794857447/buteco-do-papa/produtos/wovi8lqckxaa2tyabhnb",
+    "v1794861144/buteco-do-papa/produtos/wovi8lqckxaa2tyabhnb"
+  );
+  // Remove eventuais transformações de corte na URL do Cloudinary
+  if (clean.includes("res.cloudinary.com")) {
+    clean = clean.replace(/\/c_(fill|crop|thumb|auto)[^/]*\//g, "/");
+  }
+  return clean;
+}
+
 /**
  * Retorna a URL da imagem do produto: prioriza `product.imageUrl` se preenchida,
  * caso contrário retorna a imagem ilustrativa inteligente do cardápio.
@@ -584,7 +602,7 @@ export function getProductImageUrl(
 ): string {
   const customUrl = (product.imageUrl ?? product.image_url)?.trim();
   if (customUrl) {
-    return customUrl;
+    return sanitizeCloudinaryUrl(customUrl);
   }
   return getFallbackProductImageUrl(product.name, categoryName);
 }
@@ -594,6 +612,9 @@ export function getProductImageUrl(
  */
 export function getHighResProductImageUrl(imageSrc: string): string {
   if (!imageSrc) return imageSrc;
+  if (imageSrc.includes("res.cloudinary.com")) {
+    return sanitizeCloudinaryUrl(imageSrc);
+  }
   if (imageSrc.includes("images.unsplash.com")) {
     return imageSrc
       .replace(/w=\d+/g, "w=1200")

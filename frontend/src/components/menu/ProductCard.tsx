@@ -153,7 +153,7 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
                   setFailedUrl(primaryUrl);
                 }
               }}
-              className="w-full h-full object-contain transition-transform duration-300 ease-out group-hover:scale-105 group-focus-visible:scale-105"
+              className="w-full h-full object-contain p-0.5 transition-opacity duration-200"
             />
             <span
               aria-hidden="true"
@@ -236,8 +236,8 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
                       setFailedUrl(primaryUrl);
                     }
                   }}
-                  className={`w-full h-full max-h-[65vh] sm:max-h-[70vh] object-contain transition-transform duration-500 ease-out ${
-                    isExtraZoomed ? "scale-150" : "scale-100 hover:scale-[1.03]"
+                  className={`w-full h-full max-h-[65vh] sm:max-h-[70vh] object-contain p-1 transition-transform duration-500 ease-out ${
+                    isExtraZoomed ? "scale-150" : "scale-100"
                   }`}
                 />
               </div>

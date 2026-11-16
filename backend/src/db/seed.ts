@@ -524,7 +524,12 @@ const menu: SeedCategory[] = [
       { name: 'Montila (Dose)', price: 8.0 },
       // Outros
       { name: 'Campari (Bitter)', price: 12.0 },
-      { name: '5 Estrelas (Conhaque)', price: 7.0 },
+      {
+        name: '5 Estrelas (Conhaque)',
+        price: 7.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794861144/buteco-do-papa/produtos/wovi8lqckxaa2tyabhnb.jpg',
+      },
       { name: 'Dreher (Conhaque)', price: 9.0 },
       { name: 'Domecq (Conhaque)', price: 10.0 },
       { name: 'São João da Barra (Conhaque)', price: 7.0 },

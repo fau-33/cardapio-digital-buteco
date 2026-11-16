@@ -1,7 +1,7 @@
 import { Category, Product } from "@/types";
 import { getProductAccessibleDescription } from "@/lib/productImage";
 
-export const MENU_CACHE_KEY = "buteco_papa_menu_cache_v13";
+export const MENU_CACHE_KEY = "buteco_papa_menu_cache_v14";
 
 type RawSeedItem = [
   name: string,
@@ -223,7 +223,12 @@ export const INITIAL_MENU_CATEGORIES: Category[] = [
     ["Bacardí (Dose)", 8.0],
     ["Montila (Dose)", 8.0],
     ["Campari (Bitter)", 12.0],
-    ["5 Estrelas (Conhaque)", 7.0],
+    [
+      "5 Estrelas (Conhaque)",
+      7.0,
+      false,
+      "https://res.cloudinary.com/zcg5o50x/image/upload/v1794861144/buteco-do-papa/produtos/wovi8lqckxaa2tyabhnb.jpg",
+    ],
     ["Dreher (Conhaque)", 9.0],
     ["Domecq (Conhaque)", 10.0],
     ["São João da Barra (Conhaque)", 7.0],

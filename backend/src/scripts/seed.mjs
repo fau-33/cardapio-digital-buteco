@@ -232,7 +232,7 @@ const MENU = [
       // Bitter
       ['Campari (Bitter)',              12.00],
       // Conhaque
-      ['5 Estrelas (Conhaque)',          7.00],
+      ['5 Estrelas (Conhaque)',          7.00, false, 'https://res.cloudinary.com/zcg5o50x/image/upload/v1794861144/buteco-do-papa/produtos/wovi8lqckxaa2tyabhnb.jpg'],
       ['Dreher (Conhaque)',              9.00],
       ['Domecq (Conhaque)',             10.00],
       ['São João da Barra (Conhaque)',   7.00],
