@@ -58,3 +58,49 @@ export async function apiFetch<T>(
 
   return response.json();
 }
+
+export interface UploadImageResponse {
+  url: string;
+  secure_url: string;
+  publicId: string;
+  width: number;
+  height: number;
+}
+
+export async function uploadProductImage(
+  file: File
+): Promise<UploadImageResponse> {
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await fetch(`${API_URL}/products/upload-image`, {
+    method: "POST",
+    headers: {
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    let errorMessage = `Erro no upload da imagem: ${response.status}`;
+    try {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await response.json();
+        if (errorData?.message) {
+          errorMessage = Array.isArray(errorData.message)
+            ? errorData.message.join(", ")
+            : errorData.message;
+        }
+      }
+    } catch {
+      // Falha ao ler detalhes do erro
+    }
+    throw new Error(errorMessage);
+  }
+
+  return response.json();
+}

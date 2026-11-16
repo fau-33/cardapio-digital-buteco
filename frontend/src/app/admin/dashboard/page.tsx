@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Category, Product, User } from "@/types";
-import { apiFetch, warmUpApi } from "@/lib/api";
+import { apiFetch, uploadProductImage, warmUpApi } from "@/lib/api";
 import { MENU_CACHE_KEY } from "@/lib/menuCache";
 import { getProductImageAlt, getProductImageUrl } from "@/lib/productImage";
 import {
@@ -27,6 +27,8 @@ import {
   Check,
   Beer,
   Code2,
+  Camera,
+  Upload,
 } from "lucide-react";
 
 type TabType = "products" | "categories";
@@ -64,6 +66,10 @@ export default function AdminDashboardPage() {
   const [prodIsNovelty, setProdIsNovelty] = useState(false);
   const [prodIsActive, setProdIsActive] = useState(true);
   const [savingProduct, setSavingProduct] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [localPreviewUrl, setLocalPreviewUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   // Modal de Categoria (Criar / Editar)
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -214,6 +220,8 @@ export default function AdminDashboardPage() {
     setProdDescription("");
     setProdPrice("");
     setProdImageUrl("");
+    setLocalPreviewUrl(null);
+    setUploadingImage(false);
     setProdCategoryId(
       filterCategoryId !== "ALL"
         ? filterCategoryId
@@ -230,10 +238,52 @@ export default function AdminDashboardPage() {
     setProdDescription(product.description || "");
     setProdPrice(String(Number(product.price).toFixed(2)));
     setProdImageUrl(product.imageUrl || "");
+    setLocalPreviewUrl(null);
+    setUploadingImage(false);
     setProdCategoryId(product.categoryId);
     setProdIsNovelty(Boolean(product.isNovelty));
     setProdIsActive(product.isActive !== false);
     setProductModalOpen(true);
+  };
+
+  const handleImageFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      showToast("error", "Selecione um arquivo de imagem válido.");
+      e.target.value = "";
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setLocalPreviewUrl(objectUrl);
+    setUploadingImage(true);
+
+    try {
+      const result = await uploadProductImage(file);
+      const uploadedUrl = result.secure_url || result.url;
+      setProdImageUrl(uploadedUrl);
+      setLocalPreviewUrl(null);
+      showToast(
+        "success",
+        "Foto enviada e padronizada (800x520px) com sucesso!"
+      );
+    } catch (err: unknown) {
+      setLocalPreviewUrl(null);
+      showToast(
+        "error",
+        err instanceof Error
+          ? err.message
+          : "Falha ao enviar a imagem para o Cloudinary."
+      );
+    } finally {
+      setUploadingImage(false);
+      URL.revokeObjectURL(objectUrl);
+      e.target.value = "";
+    }
   };
 
   const handleSaveProduct = async (e: React.FormEvent) => {
@@ -898,15 +948,16 @@ export default function AdminDashboardPage() {
 
       {/* ================= MODAL DE PRODUTO ================= */}
       {productModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#18181B] border border-[#27272A] rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#18181B] border border-[#27272A] rounded-2xl max-w-md w-full p-5 sm:p-6 space-y-4 shadow-2xl my-auto max-h-[92vh] overflow-y-auto">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-extrabold uppercase tracking-wide text-[#F59E0B]">
                 {editingProduct ? "Editar Produto" : "Novo Produto"}
               </h2>
               <button
+                type="button"
                 onClick={() => setProductModalOpen(false)}
-                className="text-zinc-400 hover:text-white"
+                className="text-zinc-400 hover:text-white p-1"
               >
                 <X size={18} />
               </button>
@@ -979,17 +1030,125 @@ export default function AdminDashboardPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
-                  URL da Imagem - Opcional, deixe vazio para usar imagem ilustrativa automática
-                </label>
+              {/* Upload Mobile-Friendly (Câmera / Galeria) + Preview Padronizado */}
+              <div className="space-y-2.5 bg-[#0D0D0D] border border-[#27272A] rounded-xl p-3.5">
+                <div className="flex items-center justify-between gap-2">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-300">
+                    Foto do Produto (800x520px)
+                  </label>
+                  {prodImageUrl && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setProdImageUrl("");
+                        setLocalPreviewUrl(null);
+                      }}
+                      className="text-[11px] text-red-400 hover:text-red-300 font-semibold transition-colors"
+                    >
+                      Usar foto automática
+                    </button>
+                  )}
+                </div>
+
+                {/* Preview da Imagem Atual ou Selecionada */}
+                <div className="relative w-full aspect-[800/520] max-h-44 rounded-lg overflow-hidden border border-[#27272A] bg-[#18181B] flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={
+                      localPreviewUrl ||
+                      getProductImageUrl(
+                        {
+                          name: prodName || "Produto",
+                          imageUrl: prodImageUrl,
+                        },
+                        categoryMap.get(prodCategoryId)
+                      )
+                    }
+                    alt={prodName || "Pré-visualização do produto"}
+                    className="w-full h-full object-cover"
+                  />
+
+                  {uploadingImage && (
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center gap-2 p-4 text-center">
+                      <Loader2
+                        size={26}
+                        className="animate-spin text-[#F59E0B]"
+                      />
+                      <span className="text-xs font-extrabold text-[#F59E0B] tracking-wide">
+                        Enviando e otimizando foto...
+                      </span>
+                      <span className="text-[10px] text-zinc-400">
+                        Padronizando em 800x520px (.jpg) no Cloudinary
+                      </span>
+                    </div>
+                  )}
+
+                  {!uploadingImage && (
+                    <span className="absolute bottom-2 left-2 bg-black/75 backdrop-blur-sm text-[10px] font-bold px-2 py-0.5 rounded-md border border-white/10 text-zinc-200">
+                      {prodImageUrl.includes("cloudinary.com")
+                        ? "Foto Cloudinary (800x520)"
+                        : prodImageUrl.startsWith("/images/")
+                          ? "Foto Oficial Local"
+                          : prodImageUrl
+                            ? "URL Personalizada"
+                            : "Foto Ilustrativa Automática"}
+                    </span>
+                  )}
+                </div>
+
+                {/* Inputs de Arquivo Ocultos (Galeria/Câmera e Câmera Direta Mobile) */}
                 <input
-                  type="url"
-                  value={prodImageUrl}
-                  onChange={(e) => setProdImageUrl(e.target.value)}
-                  placeholder="https://exemplo.com/foto-do-produto.jpg"
-                  className="w-full bg-[#0D0D0D] border border-[#27272A] rounded-xl py-2.5 px-3.5 text-sm text-white focus:outline-none focus:border-[#F59E0B]"
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageFileChange}
+                  className="hidden"
                 />
+                <input
+                  ref={cameraInputRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  onChange={handleImageFileChange}
+                  className="hidden"
+                />
+
+                {/* Botões Grandes para Celular (Tirar Foto / Galeria) */}
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    disabled={uploadingImage}
+                    onClick={() => cameraInputRef.current?.click()}
+                    className="flex items-center justify-center gap-2 bg-[#18181B] hover:bg-[#27272A] active:scale-[0.98] text-[#F59E0B] border border-amber-500/30 rounded-xl py-2.5 px-3 text-xs font-extrabold uppercase tracking-wider transition-all disabled:opacity-50 touch-manipulation"
+                  >
+                    <Camera size={16} />
+                    <span>Câmera</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled={uploadingImage}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center justify-center gap-2 bg-[#18181B] hover:bg-[#27272A] active:scale-[0.98] text-white border border-[#27272A] rounded-xl py-2.5 px-3 text-xs font-extrabold uppercase tracking-wider transition-all disabled:opacity-50 touch-manipulation"
+                  >
+                    <Upload size={16} className="text-[#F59E0B]" />
+                    <span>Galeria / Arquivo</span>
+                  </button>
+                </div>
+
+                {/* Campo de URL (preenchido automaticamente pelo Cloudinary ou editável manualmente) */}
+                <div>
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-500 mb-1">
+                    URL ou caminho da imagem (preenchido automaticamente no upload)
+                  </label>
+                  <input
+                    type="text"
+                    value={prodImageUrl}
+                    onChange={(e) => setProdImageUrl(e.target.value)}
+                    placeholder="Ex.: https://res.cloudinary.com/... ou /images/..."
+                    className="w-full bg-[#18181B] border border-[#27272A] rounded-lg py-2 px-3 text-xs text-zinc-200 focus:outline-none focus:border-[#F59E0B]"
+                  />
+                </div>
               </div>
 
               <div className="flex flex-col gap-2 pt-1">
@@ -1025,10 +1184,14 @@ export default function AdminDashboardPage() {
                 </button>
                 <button
                   type="submit"
-                  disabled={savingProduct}
+                  disabled={savingProduct || uploadingImage}
                   className="inline-flex items-center gap-1.5 bg-[#F59E0B] hover:bg-[#d9822b] text-black font-extrabold uppercase text-xs tracking-wider px-5 py-2.5 rounded-xl transition-all disabled:opacity-50"
                 >
-                  {savingProduct ? (
+                  {uploadingImage ? (
+                    <>
+                      <Loader2 size={15} className="animate-spin" /> Aguarde a foto...
+                    </>
+                  ) : savingProduct ? (
                     <>
                       <Loader2 size={15} className="animate-spin" /> Salvando...
                     </>

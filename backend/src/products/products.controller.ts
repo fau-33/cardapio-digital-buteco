@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Get,
   Post,
@@ -7,14 +8,48 @@ import {
   Delete,
   Body,
   Param,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import 'multer';
 import { ProductsService } from './products.service.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { CloudinaryService } from '../upload/cloudinary.service.js';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
+
+  // 🔒 PROTEGIDO: Upload e padronização de imagem via Sharp + Cloudinary (800x520px .jpg)
+  @UseGuards(JwtAuthGuard)
+  @Post('upload-image')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: 15 * 1024 * 1024 }, // Até 15MB (fotos diretas da câmera do celular)
+      fileFilter: (_req, file, callback) => {
+        if (!file.mimetype.startsWith('image/')) {
+          return callback(
+            new BadRequestException(
+              'Apenas arquivos de imagem são permitidos.',
+            ),
+            false,
+          );
+        }
+        callback(null, true);
+      },
+    }),
+  )
+  async uploadImage(@UploadedFile() file?: Express.Multer.File) {
+    if (!file || !file.buffer) {
+      throw new BadRequestException('Nenhuma imagem foi enviada.');
+    }
+    return await this.cloudinaryService.uploadProductImage(file.buffer);
+  }
 
   // 🔓 PÚBLICO: Qualquer cliente no QR Code vê apenas produtos ativos/disponíveis
   @Get()
