@@ -358,6 +358,81 @@ export function getFallbackProductImageUrl(
   if (name === "5 estrelas (conhaque)" || name.startsWith("5 estrelas")) {
     return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794861144/buteco-do-papa/produtos/wovi8lqckxaa2tyabhnb.jpg";
   }
+  if (name === "51 (cachaca)" || name === "51 (dose)") {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794861977/buteco-do-papa/produtos/k1hqcbfky5lblgdq9por.jpg";
+  }
+  if (name === "51 ice" || name.startsWith("51 ice")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862107/buteco-do-papa/produtos/riiynlskxwchkixvflo9.jpg";
+  }
+  if (name.startsWith("absolut")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862218/buteco-do-papa/produtos/pnslmxw6absq0spkrl5j.jpg";
+  }
+  if (name.startsWith("bacardi")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862293/buteco-do-papa/produtos/z3e3zgkbn5gtmiosccdf.jpg";
+  }
+  if (name.startsWith("ballantine")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862374/buteco-do-papa/produtos/l9wzaik8mctmtutfp9hr.jpg";
+  }
+  if (name.startsWith("black & white")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862476/buteco-do-papa/produtos/aqlhbyltlcvqevvtbu6w.jpg";
+  }
+  if (name.startsWith("black label")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862564/buteco-do-papa/produtos/f1vh2b4auiuf2flmvfse.jpg";
+  }
+  if (name.startsWith("cabare")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862647/buteco-do-papa/produtos/ehue2onnr5pj7upcqnzs.jpg";
+  }
+  if (name.startsWith("campari")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862734/buteco-do-papa/produtos/q9soinltqdih0knkhtcd.jpg";
+  }
+  if (name.startsWith("chivas")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862847/buteco-do-papa/produtos/zohfnznaivv4sz7krprk.jpg";
+  }
+  if (name.startsWith("domecq")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794862947/buteco-do-papa/produtos/scfvnquuki1o5quwdnvj.jpg";
+  }
+  if (name.startsWith("dreher")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794863026/buteco-do-papa/produtos/hhmfupwh0ub2edts47ms.jpg";
+  }
+  if (name.startsWith("gengibre")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794863130/buteco-do-papa/produtos/sevopdd8rritosumm3ur.jpg";
+  }
+  if (name.startsWith("martini")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794863220/buteco-do-papa/produtos/dmepq9cbyt0mzkyiaais.jpg";
+  }
+  if (name.startsWith("montila")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1794863339/buteco-do-papa/produtos/holk4bxlrotu1spjdcjp.jpg";
+  }
+  if (name.startsWith("passport")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032986/buteco-do-papa/produtos/i7rdcwlp9qpc9lhukiwo.jpg";
+  }
+  if (name.startsWith("red label")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032985/buteco-do-papa/produtos/uecr3l3n54rrajvvwcna.jpg";
+  }
+  if (name.startsWith("rock's") || name.startsWith("rock’s") || name.startsWith("rocks")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032984/buteco-do-papa/produtos/xfjabu8q8igi4jr0xyvo.jpg";
+  }
+  if (name.startsWith("seagers")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032984/buteco-do-papa/produtos/faknbaxawdxouehjboyj.jpg";
+  }
+  if (name.startsWith("seleta")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032983/buteco-do-papa/produtos/rqdosdxvtwfqoxgsnwiy.jpg";
+  }
+  if (name.startsWith("skol beats")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032982/buteco-do-papa/produtos/hkvkhymnqk98ausrvgiz.jpg";
+  }
+  if (name === "smirnoff ice" || name.startsWith("smirnoff ice")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032981/buteco-do-papa/produtos/k4uf3ll0jtz4uoujczcn.jpg";
+  }
+  if (name.startsWith("smirnoff")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032982/buteco-do-papa/produtos/zqi0z8hdotrrzdohdbvm.jpg";
+  }
+  if (name.startsWith("sao joao da barra")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032980/buteco-do-papa/produtos/a8sw0oppcohtbdexm0ln.jpg";
+  }
+  if (name === "tequila" || name.startsWith("tequila")) {
+    return "https://res.cloudinary.com/zcg5o50x/image/upload/v1795032979/buteco-do-papa/produtos/zbakc8et5p7p5yujqukf.jpg";
+  }
 
   // 1. Caldos e Sopas
   if (
@@ -948,6 +1023,36 @@ export function getProductAccessibleDescription(
   }
 
   // ─── 7. DESTILADOS E DOSES / FALLBACKS INTELIGENTES ──────────────────────
+  if (name === "tequila" || name.startsWith("tequila")) {
+    return "Dose de Tequila Jose Cuervo Especial Silver servida no Buteco do Papá";
+  }
+  if (name.startsWith("sao joao da barra")) {
+    return "Dose de Conhaque São João da Barra tradicional com alcatrão, mel e gengibre";
+  }
+  if (name === "smirnoff ice" || name.startsWith("smirnoff ice")) {
+    return "Garrafa Long Neck de Smirnoff Ice Original (275ml) bebida mista de vodka com limão bem gelada";
+  }
+  if (name.startsWith("smirnoff")) {
+    return "Dose de Vodka Smirnoff No. 21 triplamente destilada servida gelada";
+  }
+  if (name.startsWith("skol beats")) {
+    return "Lata de Skol Beats Senses (269ml) bebida mista refrescante servida bem gelada";
+  }
+  if (name.startsWith("seleta")) {
+    return "Dose de Cachaça Seleta artesanal de Salinas envelhecida em umburana";
+  }
+  if (name.startsWith("seagers")) {
+    return "Dose de Gin Seagers Silver London Dry aromático com notas de zimbro";
+  }
+  if (name.startsWith("rock's") || name.startsWith("rocks")) {
+    return "Dose de Gin Rock's Dry aromático com notas cítricas e de zimbro";
+  }
+  if (name.startsWith("red label")) {
+    return "Dose de Whisky Johnnie Walker Red Label Blended Scotch servida pura ou com gelo";
+  }
+  if (name.startsWith("passport")) {
+    return "Dose de Whisky Passport Scotch Blended servida pura ou com gelo";
+  }
   if (hasAnyKeyword(combined, ["whisky", "whiskey", "ballantine", "black & white", "black label", "red label", "chivas", "old eight", "old parr", "passport"])) {
     return `Dose de Whisky ${productName} servida pura ou com gelo`;
   }

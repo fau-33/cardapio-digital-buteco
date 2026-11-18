@@ -497,47 +497,172 @@ const menu: SeedCategory[] = [
     order: 7,
     products: [
       // Whisky
-      { name: 'Ballantine’s (Dose)', price: 12.0 },
-      { name: 'Black & White (Dose)', price: 12.0 },
-      { name: 'Black Label (Dose)', price: 30.0 },
-      { name: 'Chivas (Dose)', price: 25.0 },
+      {
+        name: 'Ballantine’s (Dose)',
+        price: 12.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862374/buteco-do-papa/produtos/l9wzaik8mctmtutfp9hr.jpg',
+      },
+      {
+        name: 'Black & White (Dose)',
+        price: 12.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862476/buteco-do-papa/produtos/aqlhbyltlcvqevvtbu6w.jpg',
+      },
+      {
+        name: 'Black Label (Dose)',
+        price: 30.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862564/buteco-do-papa/produtos/f1vh2b4auiuf2flmvfse.jpg',
+      },
+      {
+        name: 'Chivas (Dose)',
+        price: 25.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862847/buteco-do-papa/produtos/zohfnznaivv4sz7krprk.jpg',
+      },
       { name: 'Old Eight (Dose)', price: 8.0 },
       { name: 'Old Parr (Dose)', price: 20.0 },
-      { name: 'Passport (Dose)', price: 12.0 },
-      { name: 'Red Label (Dose)', price: 15.0 },
+      {
+        name: 'Passport (Dose)',
+        price: 12.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032986/buteco-do-papa/produtos/i7rdcwlp9qpc9lhukiwo.jpg',
+      },
+      {
+        name: 'Red Label (Dose)',
+        price: 15.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032985/buteco-do-papa/produtos/uecr3l3n54rrajvvwcna.jpg',
+      },
       // Vodka
-      { name: 'Absolut (Dose)', price: 15.0 },
+      {
+        name: 'Absolut (Dose)',
+        price: 15.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862218/buteco-do-papa/produtos/pnslmxw6absq0spkrl5j.jpg',
+      },
       { name: 'Orloff (Dose)', price: 12.0 },
-      { name: 'Smirnoff (Dose)', price: 8.0 },
+      {
+        name: 'Smirnoff (Dose)',
+        price: 8.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032982/buteco-do-papa/produtos/zqi0z8hdotrrzdohdbvm.jpg',
+      },
       // Gin
-      { name: 'Rock’s (Dose)', price: 8.0 },
-      { name: 'Seagers (Dose)', price: 10.0 },
+      {
+        name: 'Rock’s (Dose)',
+        price: 8.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032984/buteco-do-papa/produtos/xfjabu8q8igi4jr0xyvo.jpg',
+      },
+      {
+        name: 'Seagers (Dose)',
+        price: 10.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032984/buteco-do-papa/produtos/faknbaxawdxouehjboyj.jpg',
+      },
       // Cachaça
-      { name: '51 (Dose)', price: 4.0 },
-      { name: 'Cabaré (Dose)', price: 10.0 },
-      { name: 'Gengibre (Dose)', price: 7.0 },
+      {
+        name: '51 (Dose)',
+        price: 4.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794861977/buteco-do-papa/produtos/k1hqcbfky5lblgdq9por.jpg',
+      },
+      {
+        name: 'Cabaré (Dose)',
+        price: 10.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862647/buteco-do-papa/produtos/ehue2onnr5pj7upcqnzs.jpg',
+      },
+      {
+        name: 'Gengibre (Dose)',
+        price: 7.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794863130/buteco-do-papa/produtos/sevopdd8rritosumm3ur.jpg',
+      },
       { name: 'Olhos Verde (Dose)', price: 5.0 },
-      { name: 'Seleta (Dose)', price: 10.0 },
-      { name: 'Tequila (Dose)', price: 12.0 },
+      {
+        name: 'Seleta (Dose)',
+        price: 10.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032983/buteco-do-papa/produtos/rqdosdxvtwfqoxgsnwiy.jpg',
+      },
+      {
+        name: 'Tequila (Dose)',
+        price: 12.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032979/buteco-do-papa/produtos/zbakc8et5p7p5yujqukf.jpg',
+      },
       // Rum
-      { name: 'Bacardí (Dose)', price: 8.0 },
-      { name: 'Montila (Dose)', price: 8.0 },
+      {
+        name: 'Bacardí (Dose)',
+        price: 8.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862293/buteco-do-papa/produtos/z3e3zgkbn5gtmiosccdf.jpg',
+      },
+      {
+        name: 'Montila (Dose)',
+        price: 8.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794863339/buteco-do-papa/produtos/holk4bxlrotu1spjdcjp.jpg',
+      },
       // Outros
-      { name: 'Campari (Bitter)', price: 12.0 },
+      {
+        name: 'Campari (Bitter)',
+        price: 12.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862734/buteco-do-papa/produtos/q9soinltqdih0knkhtcd.jpg',
+      },
       {
         name: '5 Estrelas (Conhaque)',
         price: 7.0,
         imageUrl:
           'https://res.cloudinary.com/zcg5o50x/image/upload/v1794861144/buteco-do-papa/produtos/wovi8lqckxaa2tyabhnb.jpg',
       },
-      { name: 'Dreher (Conhaque)', price: 9.0 },
-      { name: 'Domecq (Conhaque)', price: 10.0 },
-      { name: 'São João da Barra (Conhaque)', price: 7.0 },
-      { name: 'Martini (Vermute)', price: 8.0 },
+      {
+        name: 'Dreher (Conhaque)',
+        price: 9.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794863026/buteco-do-papa/produtos/hhmfupwh0ub2edts47ms.jpg',
+      },
+      {
+        name: 'Domecq (Conhaque)',
+        price: 10.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862947/buteco-do-papa/produtos/scfvnquuki1o5quwdnvj.jpg',
+      },
+      {
+        name: 'São João da Barra (Conhaque)',
+        price: 7.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032980/buteco-do-papa/produtos/a8sw0oppcohtbdexm0ln.jpg',
+      },
+      {
+        name: 'Martini (Vermute)',
+        price: 8.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794863220/buteco-do-papa/produtos/dmepq9cbyt0mzkyiaais.jpg',
+      },
       // Ice
-      { name: '51 Ice', price: 10.0 },
-      { name: 'Smirnoff Ice', price: 10.0 },
-      { name: 'Skol Beats', price: 10.0 },
+      {
+        name: '51 Ice',
+        price: 10.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1794862107/buteco-do-papa/produtos/riiynlskxwchkixvflo9.jpg',
+      },
+      {
+        name: 'Smirnoff Ice',
+        price: 10.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032981/buteco-do-papa/produtos/k4uf3ll0jtz4uoujczcn.jpg',
+      },
+      {
+        name: 'Skol Beats',
+        price: 10.0,
+        imageUrl:
+          'https://res.cloudinary.com/zcg5o50x/image/upload/v1795032982/buteco-do-papa/produtos/hkvkhymnqk98ausrvgiz.jpg',
+      },
     ],
   },
 ];
