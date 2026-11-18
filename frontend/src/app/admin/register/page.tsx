@@ -108,15 +108,9 @@ export default function AdminRegisterPage() {
 
   return (
     <main
-      className="relative min-h-screen bg-[#ffffff] bg-[url('/images/admin-bahia-bg.jpg')] bg-right bg-contain bg-no-repeat text-white flex flex-col justify-center px-4 py-12 overflow-hidden"
+      className="relative min-h-screen bg-[#ffffff] bg-[url('/images/admin-bahia-bg.jpg')] bg-center sm:bg-right bg-contain bg-no-repeat text-white flex flex-col justify-center px-4 py-12 overflow-hidden"
     >
-      {/* Overlay suave para garantir 100% de contraste e legibilidade no mobile e desktop */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-white/35 sm:bg-white/20 pointer-events-none"
-      />
-
-      <div className="relative z-10 max-w-md w-full mx-auto bg-[#18181B]/95 backdrop-blur-sm border border-[#27272A] rounded-2xl p-8 shadow-2xl shadow-black/40">
+      <div className="relative z-10 max-w-md w-full mx-auto bg-[#18181B]/70 backdrop-blur-md border border-white/20 rounded-2xl p-8 shadow-2xl shadow-black/50">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-xs text-zinc-400 hover:text-[#F59E0B] transition-colors mb-6"
@@ -175,8 +169,8 @@ export default function AdminRegisterPage() {
         </button>
 
         <div className="relative flex items-center justify-center mb-6">
-          <div className="border-t border-[#27272A] w-full"></div>
-          <span className="bg-[#18181B] px-3 text-[10px] text-zinc-500 uppercase tracking-wider font-bold absolute">
+          <div className="border-t border-white/15 w-full"></div>
+          <span className="bg-[#18181B]/85 backdrop-blur-sm px-3 py-0.5 rounded-full text-[10px] text-zinc-300 uppercase tracking-wider font-bold absolute">
             ou com e-mail
           </span>
         </div>
