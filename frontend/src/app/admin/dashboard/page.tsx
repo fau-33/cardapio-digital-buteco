@@ -527,7 +527,13 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0D0D0D] text-white pb-16">
+    <main className="relative min-h-screen bg-[#0D0D0D] text-white pb-16">
+      {/* Marca d'água temática do Esporte Clube Bahia fixa e sutil no plano de fundo */}
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 z-0 pointer-events-none opacity-10 bg-[url('/images/admin-bahia-bg.jpg')] bg-right bg-contain bg-no-repeat"
+      />
+
       {/* Barra Superior */}
       <header className="sticky top-0 z-30 bg-[#0D0D0D]/95 backdrop-blur border-b border-[#27272A]">
         <div className="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
@@ -603,7 +609,7 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto px-4 pt-6 space-y-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 pt-6 space-y-6">
         {/* Cards de Resumo */}
         <section className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div className="bg-[#18181B] border border-[#27272A] rounded-xl p-4">
@@ -1281,7 +1287,7 @@ export default function AdminDashboardPage() {
       )}
 
       {/* Rodapé Técnico Discreto c/ Atalho para o Desenvolvedor */}
-      <footer className="max-w-6xl mx-auto px-4 pt-12 text-center">
+      <footer className="relative z-10 max-w-6xl mx-auto px-4 pt-12 text-center">
         <Link
           href="/admin/dev"
           className="inline-flex items-center gap-1.5 text-[11px] text-zinc-600 hover:text-zinc-400 transition-colors"

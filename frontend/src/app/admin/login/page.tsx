@@ -95,8 +95,16 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0D0D0D] text-white flex flex-col justify-center px-4 py-12">
-      <div className="max-w-md w-full mx-auto bg-[#18181B] border border-[#27272A] rounded-2xl p-8 shadow-2xl relative">
+    <main
+      className="relative min-h-screen bg-[#ffffff] bg-[url('/images/admin-bahia-bg.jpg')] bg-right bg-contain bg-no-repeat text-white flex flex-col justify-center px-4 py-12 overflow-hidden"
+    >
+      {/* Overlay suave para garantir 100% de contraste e legibilidade no mobile e desktop */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-white/35 sm:bg-white/20 pointer-events-none"
+      />
+
+      <div className="relative z-10 max-w-md w-full mx-auto bg-[#18181B]/95 backdrop-blur-sm border border-[#27272A] rounded-2xl p-8 shadow-2xl shadow-black/40">
         {/* Voltar para o Cardápio */}
         <Link
           href="/"
