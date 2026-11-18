@@ -100,15 +100,15 @@ export default function HomePage() {
           onSelectCategory={setSelectedCategoryId}
         />
 
-        <section className="max-w-3xl mx-auto px-4 py-6">
+        <section className="w-full max-w-3xl mx-auto px-3 sm:px-4 py-6">
           {selectedCategory && (
-            <div>
-              <h2 className="text-xl font-extrabold text-[#F59E0B] mb-4 uppercase tracking-wider flex items-center gap-2">
-                <span className="w-2 h-2 bg-[#F59E0B] rounded-full inline-block"></span>
-                {selectedCategory.name}
+            <div className="w-full">
+              <h2 className="text-lg sm:text-xl font-extrabold text-[#F59E0B] mb-4 uppercase tracking-wider flex items-center gap-2">
+                <span className="w-2 h-2 bg-[#F59E0B] rounded-full inline-block shrink-0"></span>
+                <span className="truncate">{selectedCategory.name}</span>
               </h2>
 
-              <div className="grid gap-3">
+              <div className="grid grid-cols-1 gap-3 w-full">
                 {(selectedCategory.products ?? []).map((product) => (
                   <ProductCard
                     key={product.id}

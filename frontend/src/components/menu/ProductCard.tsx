@@ -97,17 +97,17 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
   return (
     <>
       <article
-        className="bg-[#18181B] border border-[#27272A] rounded-xl p-4 flex items-center justify-between gap-4 shadow-sm hover:border-amber-500/50 transition-colors"
+        className="w-full max-w-full overflow-hidden bg-[#18181B] border border-[#27272A] rounded-xl p-3 sm:p-4 flex items-center justify-between gap-2.5 sm:gap-4 shadow-sm hover:border-amber-500/50 transition-colors"
         aria-label={`${product.name}${product.isNovelty ? ", novidade" : ""}, preço ${formattedPrice}. ${imageAlt}`}
       >
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <h3 className="font-bold text-base text-white truncate">
+        <div className="flex-1 min-w-0 pr-1">
+          <div className="flex items-start sm:items-center gap-1.5 sm:gap-2 mb-1 flex-wrap">
+            <h3 className="font-bold text-sm sm:text-base text-white leading-snug break-words line-clamp-2">
               {product.name}
             </h3>
             {product.isNovelty && (
               <span
-                className="bg-red-600/25 text-red-400 border border-red-500/40 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm"
+                className="bg-red-600/25 text-red-400 border border-red-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm shrink-0"
                 aria-label="Item em destaque como novidade"
               >
                 Novidade
@@ -115,17 +115,17 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
             )}
           </div>
           {product.description && (
-            <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+            <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed break-words">
               {product.description}
             </p>
           )}
           <span className="sr-only">{imageAlt}</span>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="text-right">
+        <div className="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
+          <div className="text-right shrink-0">
             <span
-              className="text-base font-extrabold text-[#F59E0B] tracking-tight"
+              className="text-sm sm:text-base font-extrabold text-[#F59E0B] tracking-tight whitespace-nowrap"
               aria-label={`Preço: ${formattedPrice}`}
             >
               {formattedPrice}
@@ -140,12 +140,14 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
             aria-haspopup="dialog"
             aria-expanded={isModalMounted}
             title={`Clique para ampliar a foto de ${product.name}`}
-            className="group relative w-20 sm:w-24 aspect-[800/520] rounded-lg overflow-hidden shrink-0 border border-amber-500/25 hover:border-[#F59E0B] bg-white shadow-sm cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#18181B] transition-all duration-200"
+            className="group relative w-24 h-16 sm:w-28 sm:h-[73px] min-w-[96px] min-h-[64px] sm:min-w-[112px] sm:min-h-[73px] aspect-[800/520] rounded-lg overflow-hidden shrink-0 border border-amber-500/25 hover:border-[#F59E0B] bg-white shadow-sm cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F59E0B] focus-visible:ring-offset-2 focus-visible:ring-offset-[#18181B] transition-all duration-200 flex items-center justify-center"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageSrc}
               alt={imageAlt}
+              width={800}
+              height={520}
               loading="lazy"
               decoding="async"
               onError={() => {
@@ -153,7 +155,7 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
                   setFailedUrl(primaryUrl);
                 }
               }}
-              className="w-full h-full object-contain p-0.5 transition-opacity duration-200"
+              className="w-full h-full object-contain p-0.5 block transition-opacity duration-200"
             />
             <span
               aria-hidden="true"
@@ -222,7 +224,7 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
               {/* Área da Imagem Ampliada com Zoom Suave */}
               <div
                 onClick={() => setIsExtraZoomed((prev) => !prev)}
-                className={`relative w-full aspect-[800/520] bg-white flex items-center justify-center overflow-hidden select-none ${
+                className={`relative w-full min-h-[220px] sm:min-h-[280px] aspect-[800/520] bg-white flex items-center justify-center overflow-hidden select-none ${
                   isExtraZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
                 }`}
               >
@@ -230,13 +232,15 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
                 <img
                   src={highResImageSrc}
                   alt={imageAlt}
+                  width={800}
+                  height={520}
                   decoding="async"
                   onError={() => {
                     if (imageSrc !== fallbackUrl) {
                       setFailedUrl(primaryUrl);
                     }
                   }}
-                  className={`w-full h-full max-h-[65vh] sm:max-h-[70vh] object-contain p-1 transition-transform duration-500 ease-out ${
+                  className={`w-full h-full max-h-[65vh] sm:max-h-[70vh] object-contain p-1 block transition-transform duration-500 ease-out ${
                     isExtraZoomed ? "scale-150" : "scale-100"
                   }`}
                 />
